@@ -15,12 +15,12 @@
 - [ ] `DELETE /admin/hooks/{id}` Delete a hook
 - [ ] `PATCH /admin/hooks/{id}` Update a hook
 - [ ] `GET /admin/orgs` List all organizations
-- [ ] `GET /admin/unadopted` List unadopted repositories
-- [ ] `POST /admin/unadopted/{owner}/{repo}` Adopt unadopted files as a repository
-- [ ] `DELETE /admin/unadopted/{owner}/{repo}` Delete unadopted files
-- [ ] `GET /admin/users` Search users according filter conditions
-- [ ] `POST /admin/users` Create a user
-- [ ] `DELETE /admin/users/{username}` Delete a user
+- [ ] `GET /admin/unadopted` List un-adopted repositories
+- [ ] `POST /admin/unadopted/{owner}/{repo}` Adopt un-adopted files as a repository
+- [ ] `DELETE /admin/unadopted/{owner}/{repo}` Delete un-adopted files
+- [x] `GET /admin/users` Search users according filter conditions
+- [x] `POST /admin/users` Create a user
+- [x] `DELETE /admin/users/{username}` Delete a user
 - [ ] `PATCH /admin/users/{username}` Edit an existing user
 - [ ] `POST /admin/users/{username}/keys` Add a public key on behalf of a user
 - [ ] `DELETE /admin/users/{username}/keys/{id}` Delete a user's public key
