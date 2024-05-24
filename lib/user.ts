@@ -90,4 +90,30 @@ export class User {
         });
     }
 
+    async rename(username: string): Promise<User> {
+
+        if (this.username === undefined) {
+            throw new Error("User not created");
+        }
+
+        const res = await this.client.request(
+            "POST",
+            `/api/v1/admin/users/${this.username}/rename`,
+            new Headers(),
+            JSON.stringify({ new_username: username }),
+            new URLSearchParams({}),
+        );
+
+        if (res.status !== 200) {
+            console.log(res)
+            const errorResponse = await res.json();
+            throw new Error(`Unexpected response status ${res.status}: ${errorResponse.message}`);
+        }
+        await res.text();
+
+        this.username = username;
+
+        return this;
+    }
+
 }

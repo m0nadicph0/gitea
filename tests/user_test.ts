@@ -48,3 +48,15 @@ Deno.test("test delete user", async () => {
 
     assert(listBefore.length > listAfter.length);
 });
+
+Deno.test("test rename user", async () => {
+    const user = await gitea.users.create({
+      email: "john@example.com",
+      password: "s3cr3t0125",
+      username: "johndoe"
+    });
+
+    await user.rename("doejohn");
+    assertEquals(user.username, "doejohn");
+    await user.delete();
+});
