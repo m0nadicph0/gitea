@@ -151,6 +151,28 @@ it(adminSuite, "should get a hook", async () => {
   await gitea.admin.deleteHook(hook.id);
 });
 
+it(adminSuite, 'should update a hook', async () => {
+  const hook = await gitea.admin.createHook({
+    type: "gitea",
+    active: true,
+    authorization_header: "",
+    branch_filter: "main",
+    config: {
+      url: "http://some-hook-url/hook",
+      content_type: "json",
+    },
+    events: ["push"],
+  });
+
+  const updated = await gitea.admin.updateHook(hook.id, {
+    active: false,
+  });
+
+  assertEquals(updated.active, false);
+
+  await gitea.admin.deleteHook(hook.id);
+});
+
 it(adminSuite, "should list cron tasks", async () => {
   const tasks = await gitea.admin.listCronTasks();
 

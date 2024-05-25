@@ -1,17 +1,17 @@
 import { Client } from "./client.ts";
 import {
   CreateHookRequest,
-  CreateHookResponse,
   CreateUserRequest,
   CreateUserResponse,
   Cron,
-  EmailListItem,
-  HookListItem,
+  EmailListItem, Hook,
   OrganizationListItem,
+  UpdateHookRequest,
   UserListItem,
 } from "./types/admin.ts";
 
 export class Admin {
+
   client: Client;
 
   constructor(client: Client) {
@@ -153,7 +153,7 @@ export class Admin {
     return await res.json() as EmailListItem[];
   }
 
-  async createHook(opt: CreateHookRequest): Promise<CreateHookResponse> {
+  async createHook(opt: CreateHookRequest): Promise<Hook> {
     const res = await this.client.request(
       "POST",
       "/api/v1/admin/hooks",
@@ -169,7 +169,7 @@ export class Admin {
       );
     }
 
-    return await res.json() as CreateHookResponse;
+    return await res.json() as Hook;
   }
 
   async deleteHook(id: number): Promise<boolean> {
@@ -187,7 +187,7 @@ export class Admin {
     return true;
   }
 
-  async listSystemHooks(): Promise<HookListItem[]> {
+  async listSystemHooks(): Promise<Hook[]> {
     const res = await this.client.request(
       "GET",
       "/api/v1/admin/hooks",
@@ -203,10 +203,10 @@ export class Admin {
       );
     }
 
-    return await res.json() as HookListItem[];
+    return await res.json() as Hook[];
   }
 
-  async getHook(id: number): Promise<HookListItem> {
+  async getHook(id: number): Promise<Hook> {
     const res = await this.client.request(
       "GET",
       `/api/v1/admin/hooks/${id}`,
@@ -222,7 +222,27 @@ export class Admin {
       );
     }
 
-    return await res.json() as HookListItem;
+    return await res.json() as Hook;
+  }
+
+  async updateHook(id: number, opt: UpdateHookRequest): Promise<Hook> {
+
+      const res = await this.client.request(
+          "PATCH",
+          `/api/v1/admin/hooks/${id}`,
+          new Headers(),
+          JSON.stringify(opt),
+          new URLSearchParams({}),
+      );
+
+      if (res.status !== 200) {
+          const errorResponse = await res.json();
+          throw new Error(
+              `Unexpected response status ${res.status}: ${errorResponse.message}`,
+          );
+      }
+
+      return await res.json() as Hook;
   }
 
   async listCronTasks(page: number = 0, limit: number = 0): Promise<Cron[]> {

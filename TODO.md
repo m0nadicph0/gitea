@@ -8,19 +8,15 @@
 ## admin
 
 - [x] `GET /admin/cron` List cron tasks
-- [ ] `POST /admin/cron/{task}` Run cron task
+- [x] `POST /admin/cron/{task}` Run cron task
 - [x] `GET /admin/emails` List all emails
 - [x] `GET /admin/emails/search` Search all emails
 - [x] `GET /admin/hooks` List system's webhooks
 - [x] `POST /admin/hooks` Create a hook
 - [x] `GET /admin/hooks/{id}` Get a hook
 - [x] `DELETE /admin/hooks/{id}` Delete a hook
-- [ ] `PATCH /admin/hooks/{id}` Update a hook
+- [x] `PATCH /admin/hooks/{id}` Update a hook
 - [x] `GET /admin/orgs` List all organizations
-- [ ] `GET /admin/unadopted` List un-adopted repositories
-- [ ] `POST /admin/unadopted/{owner}/{repo}` Adopt un-adopted files as a
-      repository
-- [ ] `DELETE /admin/unadopted/{owner}/{repo}` Delete un-adopted files
 - [x] `GET /admin/users` Search users according filter conditions
 - [x] `POST /admin/users` Create a user
 - [x] `DELETE /admin/users/{username}` Delete a user
@@ -29,6 +25,9 @@
 - [ ] `DELETE /admin/users/{username}/keys/{id}` Delete a user's public key
 - [ ] `POST /admin/users/{username}/orgs` Create an organization
 - [x] `POST /admin/users/{username}/rename` Rename a user
+- [ ] `GET /admin/unadopted` List un-adopted repositories
+- [ ] `POST /admin/unadopted/{owner}/{repo}` Adopt un-adopted files as a repository
+- [ ] `DELETE /admin/unadopted/{owner}/{repo}` Delete un-adopted files
 
 ## miscellaneous
 
