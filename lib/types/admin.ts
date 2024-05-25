@@ -83,7 +83,7 @@ export interface CreateHookRequest {
   active: boolean;
   authorization_header: string;
   branch_filter: string;
-  config: Record<string, number|string>;
+  config: Record<string, number | string>;
   events: string[];
   type: string;
 }
@@ -113,4 +113,12 @@ export interface HookListItem {
   active: boolean;
   updated_at: string;
   created_at: string;
+}
+
+export interface Cron {
+  name: string;
+  schedule: string;
+  next: string;
+  prev: string;
+  exec_times: number;
 }

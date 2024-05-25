@@ -7,7 +7,7 @@
 
 ## admin
 
-- [ ] `GET /admin/cron` List cron tasks
+- [x] `GET /admin/cron` List cron tasks
 - [ ] `POST /admin/cron/{task}` Run cron task
 - [x] `GET /admin/emails` List all emails
 - [x] `GET /admin/emails/search` Search all emails
@@ -18,7 +18,8 @@
 - [ ] `PATCH /admin/hooks/{id}` Update a hook
 - [x] `GET /admin/orgs` List all organizations
 - [ ] `GET /admin/unadopted` List un-adopted repositories
-- [ ] `POST /admin/unadopted/{owner}/{repo}` Adopt un-adopted files as a repository
+- [ ] `POST /admin/unadopted/{owner}/{repo}` Adopt un-adopted files as a
+      repository
 - [ ] `DELETE /admin/unadopted/{owner}/{repo}` Delete un-adopted files
 - [x] `GET /admin/users` Search users according filter conditions
 - [x] `POST /admin/users` Create a user
