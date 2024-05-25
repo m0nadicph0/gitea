@@ -1,8 +1,17 @@
 import {Client} from "./client.ts";
-import {CreateUserRequest, CreateUserResponse, UserListItem} from "./types/user.ts";
-
+import {
+    CreateHookRequest,
+    CreateHookResponse,
+    CreateUserRequest,
+    CreateUserResponse,
+    EmailListItem,
+    HookListItem,
+    OrganizationListItem,
+    UserListItem,
+} from "./types/admin.ts";
 
 export class Admin {
+
     client: Client;
 
     constructor(client: Client) {
@@ -24,7 +33,9 @@ export class Admin {
             }
             default: {
                 const errorResponse = await res.json();
-                throw new Error(`Unexpected response status ${res.status}: ${errorResponse.message}`);
+                throw new Error(
+                    `Unexpected response status ${res.status}: ${errorResponse.message}`,
+                );
             }
         }
     }
@@ -36,7 +47,7 @@ export class Admin {
             new Headers(),
             new Uint8Array(),
             new URLSearchParams({}),
-        )
+        );
 
         if (res.status !== 204) {
             console.log(await res.text());
@@ -51,33 +62,168 @@ export class Admin {
             new Headers(),
             null,
             new URLSearchParams({}),
-        )
+        );
 
         if (res.status !== 200) {
             const errorResponse = await res.json();
-            throw new Error(`Unexpected response status ${res.status}: ${errorResponse.message}`);
+            throw new Error(
+                `Unexpected response status ${res.status}: ${errorResponse.message}`,
+            );
         }
 
         return await res.json() as UserListItem[];
     }
 
     async renameUser(username: string, newUserName: string): Promise<boolean> {
-
         const res = await this.client.request(
             "POST",
             `/api/v1/admin/users/${username}/rename`,
             new Headers(),
-            JSON.stringify({ new_username: newUserName }),
+            JSON.stringify({new_username: newUserName}),
             new URLSearchParams({}),
         );
 
         if (res.status !== 200) {
-            console.log(res)
+            console.log(res);
             const errorResponse = await res.json();
-            throw new Error(`Unexpected response status ${res.status}: ${errorResponse.message}`);
+            throw new Error(
+                `Unexpected response status ${res.status}: ${errorResponse.message}`,
+            );
         }
         await res.text();
         return true;
     }
 
+    async listOrganizations(): Promise<OrganizationListItem[]> {
+        const res = await this.client.request(
+            "GET",
+            "/api/v1/admin/orgs",
+            new Headers(),
+            null,
+            new URLSearchParams({}),
+        );
+
+        if (res.status !== 200) {
+            const errorResponse = await res.json();
+            throw new Error(
+                `Unexpected response status ${res.status}: ${errorResponse.message}`,
+            );
+        }
+
+        return await res.json() as OrganizationListItem[];
+    }
+
+    async listEmails(): Promise<EmailListItem[]> {
+        const res = await this.client.request(
+            "GET",
+            "/api/v1/admin/emails",
+            new Headers(),
+            null,
+            new URLSearchParams({}),
+        );
+
+        if (res.status !== 200) {
+            const errorResponse = await res.json();
+            throw new Error(
+                `Unexpected response status ${res.status}: ${errorResponse.message}`,
+            );
+        }
+
+        return await res.json() as EmailListItem[];
+    }
+
+    async searchEmails(query: string): Promise<EmailListItem[]> {
+        const res = await this.client.request(
+            "GET",
+            "/api/v1/admin/emails/search",
+            new Headers(),
+            null,
+            new URLSearchParams({
+                "q": query,
+            }),
+        );
+
+        if (res.status !== 200) {
+            const errorResponse = await res.json();
+            throw new Error(
+                `Unexpected response status ${res.status}: ${errorResponse.message}`,
+            );
+        }
+
+        return await res.json() as EmailListItem[];
+    }
+
+    async createHook(opt: CreateHookRequest): Promise<CreateHookResponse> {
+        const res = await this.client.request(
+            "POST",
+            "/api/v1/admin/hooks",
+            new Headers(),
+            JSON.stringify(opt),
+            new URLSearchParams({}),
+        );
+
+        if (res.status !== 201) {
+            const errorResponse = await res.json();
+            throw new Error(
+                `Unexpected response status ${res.status}: ${errorResponse.message}`,
+            );
+        }
+
+        return await res.json() as CreateHookResponse;
+    }
+
+    async deleteHook(id: number): Promise<boolean> {
+        const res = await this.client.request(
+            "DELETE",
+            `/api/v1/admin/hooks/${id}`,
+            new Headers(),
+            new Uint8Array(),
+            new URLSearchParams({}),
+        );
+
+        if (res.status !== 204) {
+            throw new Error(`Unexpected response status ${res.status}`);
+        }
+        return true
+    }
+
+
+    async listSystemHooks(): Promise<HookListItem[]> {
+
+        const res = await this.client.request(
+            "GET",
+            "/api/v1/admin/hooks",
+            new Headers(),
+            null,
+            new URLSearchParams({}),
+        );
+
+        if (res.status !== 200) {
+            const errorResponse = await res.json();
+            throw new Error(
+                `Unexpected response status ${res.status}: ${errorResponse.message}`,
+            );
+        }
+
+        return await res.json() as HookListItem[];
+    }
+
+    async getHook(id: number): Promise<HookListItem> {
+        const res = await this.client.request(
+            "GET",
+            `/api/v1/admin/hooks/${id}`,
+            new Headers(),
+            null,
+            new URLSearchParams({}),
+        );
+
+        if (res.status !== 200) {
+            const errorResponse = await res.json();
+            throw new Error(
+                `Unexpected response status ${res.status}: ${errorResponse.message}`,
+            );
+        }
+
+        return await res.json() as HookListItem;
+    }
 }

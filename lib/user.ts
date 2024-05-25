@@ -1,15 +1,13 @@
-import {CreateUserRequest, CreateUserResponse, UserListItem} from "./types/user.ts";
-import {Client} from "./client.ts";
+import { Client } from "./client.ts";
 
 export class User {
+  private readonly client: Client;
+  id?: number;
+  username?: string;
+  visibility?: string;
+  email?: string;
 
-    private readonly client: Client;
-    id?: number;
-    username?: string;
-    visibility?: string;
-    email?: string;
-
-    constructor(client: Client) {
-        this.client = client;
-    }
+  constructor(client: Client) {
+    this.client = client;
+  }
 }
