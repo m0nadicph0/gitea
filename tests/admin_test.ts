@@ -216,3 +216,33 @@ it(adminSuite, "should add public key on behalf of a user", async () => {
   assertEquals(key.key, testKey);
   await gitea.admin.deleteUser(user.username);
 });
+
+it(adminSuite, "should delete a user's public key", async () => {
+  // creating a new user
+  const user = await gitea.admin.createUser({
+    email: "robert@siemens.com",
+    full_name: "Robert Baratheon",
+    login_name: "robert",
+    must_change_password: false,
+    password: "s3cr3t987659",
+    restricted: false,
+    username: "robert",
+    visibility: "public",
+  });
+
+  // creating a new key for the user
+  const publicKey = await gitea.admin.addPublicKeyToUser(user.username, {
+    key:
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINp76zym5ruLodJ5qqU4Z0StivOmHf4GCMzPRb8wkUsC user@example.com",
+    read_only: false,
+    title: "office",
+  });
+
+  const deleted = await gitea.admin.deletePublicKeyFromUser(
+    user.username,
+    publicKey.id,
+  );
+  assertEquals(deleted, true);
+
+  await gitea.admin.deleteUser(user.username);
+});

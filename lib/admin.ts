@@ -308,4 +308,22 @@ export class Admin {
 
     return await res.json() as PublicKey;
   }
+
+  async deletePublicKeyFromUser(
+    username: string,
+    keyId: number,
+  ): Promise<boolean> {
+    const res = await this.client.request(
+      "DELETE",
+      `/api/v1/admin/users/${username}/keys/${keyId}`,
+      new Headers(),
+      new Uint8Array(),
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 204) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+    return true;
+  }
 }
