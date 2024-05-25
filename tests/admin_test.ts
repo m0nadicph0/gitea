@@ -151,7 +151,7 @@ it(adminSuite, "should get a hook", async () => {
   await gitea.admin.deleteHook(hook.id);
 });
 
-it(adminSuite, 'should update a hook', async () => {
+it(adminSuite, "should update a hook", async () => {
   const hook = await gitea.admin.createHook({
     type: "gitea",
     active: true,
@@ -191,4 +191,28 @@ it(adminSuite, "should list cron tasks", async () => {
 it(adminSuite, "should run cron task", async () => {
   const result = await gitea.admin.runCronTask("repo_health_check");
   assertEquals(result, true);
+});
+
+it(adminSuite, "should add public key on behalf of a user", async () => {
+  const user = await gitea.admin.createUser({
+    email: "barbara@oracle.com",
+    full_name: "Barbara Gordon",
+    login_name: "barbara",
+    must_change_password: false,
+    password: "s3cr3t28475639!!",
+    restricted: false,
+    username: "barbara",
+    visibility: "public",
+  });
+
+  const testKey =
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINj3B5SczNqZBqyfaPqbJvGQqtK4egFJrV4JtqvAERDi user@example.com";
+  const key = await gitea.admin.addPublicKeyToUser(user.username, {
+    key: testKey,
+    read_only: false,
+    title: "personal",
+  });
+
+  assertEquals(key.key, testKey);
+  await gitea.admin.deleteUser(user.username);
 });

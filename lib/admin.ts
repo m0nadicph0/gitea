@@ -1,17 +1,19 @@
 import { Client } from "./client.ts";
 import {
   CreateHookRequest,
+  CreateKeyOption,
   CreateUserRequest,
   CreateUserResponse,
   Cron,
-  EmailListItem, Hook,
+  EmailListItem,
+  Hook,
   OrganizationListItem,
+  PublicKey,
   UpdateHookRequest,
   UserListItem,
 } from "./types/admin.ts";
 
 export class Admin {
-
   client: Client;
 
   constructor(client: Client) {
@@ -226,23 +228,22 @@ export class Admin {
   }
 
   async updateHook(id: number, opt: UpdateHookRequest): Promise<Hook> {
+    const res = await this.client.request(
+      "PATCH",
+      `/api/v1/admin/hooks/${id}`,
+      new Headers(),
+      JSON.stringify(opt),
+      new URLSearchParams({}),
+    );
 
-      const res = await this.client.request(
-          "PATCH",
-          `/api/v1/admin/hooks/${id}`,
-          new Headers(),
-          JSON.stringify(opt),
-          new URLSearchParams({}),
+    if (res.status !== 200) {
+      const errorResponse = await res.json();
+      throw new Error(
+        `Unexpected response status ${res.status}: ${errorResponse.message}`,
       );
+    }
 
-      if (res.status !== 200) {
-          const errorResponse = await res.json();
-          throw new Error(
-              `Unexpected response status ${res.status}: ${errorResponse.message}`,
-          );
-      }
-
-      return await res.json() as Hook;
+    return await res.json() as Hook;
   }
 
   async listCronTasks(page: number = 0, limit: number = 0): Promise<Cron[]> {
@@ -284,5 +285,27 @@ export class Admin {
     }
 
     return true;
+  }
+
+  async addPublicKeyToUser(
+    username: string,
+    opt: CreateKeyOption,
+  ): Promise<PublicKey> {
+    const res = await this.client.request(
+      "POST",
+      `/api/v1/admin/users/${username}/keys`,
+      new Headers(),
+      JSON.stringify(opt),
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 201) {
+      const errorResponse = await res.json();
+      throw new Error(
+        `Unexpected response status ${res.status}: ${errorResponse.message}`,
+      );
+    }
+
+    return await res.json() as PublicKey;
   }
 }

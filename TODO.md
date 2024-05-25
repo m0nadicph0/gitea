@@ -21,12 +21,13 @@
 - [x] `POST /admin/users` Create a user
 - [x] `DELETE /admin/users/{username}` Delete a user
 - [ ] `PATCH /admin/users/{username}` Edit an existing user
-- [ ] `POST /admin/users/{username}/keys` Add a public key on behalf of a user
+- [x] `POST /admin/users/{username}/keys` Add a public key on behalf of a user
 - [ ] `DELETE /admin/users/{username}/keys/{id}` Delete a user's public key
 - [ ] `POST /admin/users/{username}/orgs` Create an organization
 - [x] `POST /admin/users/{username}/rename` Rename a user
 - [ ] `GET /admin/unadopted` List un-adopted repositories
-- [ ] `POST /admin/unadopted/{owner}/{repo}` Adopt un-adopted files as a repository
+- [ ] `POST /admin/unadopted/{owner}/{repo}` Adopt un-adopted files as a
+      repository
 - [ ] `DELETE /admin/unadopted/{owner}/{repo}` Delete un-adopted files
 
 ## miscellaneous
