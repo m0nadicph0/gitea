@@ -160,3 +160,28 @@ export interface PublicKey {
   user: User;
   key_type: string;
 }
+
+export interface CreateOrgOption {
+  description: string;
+  email: string;
+  full_name: string;
+  location: string;
+  repo_admin_change_team_access: boolean;
+  username: string;
+  visibility: string;
+  website: string;
+}
+
+export interface Organization {
+  avatar_url: string;
+  description: string;
+  email: string;
+  full_name: string;
+  id: number;
+  location: string;
+  name: string;
+  repo_admin_change_team_access: boolean;
+  username: string;
+  visibility: string;
+  website: string;
+}

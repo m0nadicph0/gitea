@@ -22,7 +22,7 @@
 - [x] `DELETE /admin/users/{username}` Delete a user
 - [ ] `PATCH /admin/users/{username}` Edit an existing user
 - [x] `POST /admin/users/{username}/keys` Add a public key on behalf of a user
-- [ ] `DELETE /admin/users/{username}/keys/{id}` Delete a user's public key
+- [x] `DELETE /admin/users/{username}/keys/{id}` Delete a user's public key
 - [ ] `POST /admin/users/{username}/orgs` Create an organization
 - [x] `POST /admin/users/{username}/rename` Rename a user
 - [ ] `GET /admin/unadopted` List un-adopted repositories

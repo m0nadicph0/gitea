@@ -2,11 +2,13 @@ import { Client } from "./client.ts";
 import {
   CreateHookRequest,
   CreateKeyOption,
+  CreateOrgOption,
   CreateUserRequest,
   CreateUserResponse,
   Cron,
   EmailListItem,
   Hook,
+  Organization,
   OrganizationListItem,
   PublicKey,
   UpdateHookRequest,
@@ -325,5 +327,27 @@ export class Admin {
       throw new Error(`Unexpected response status ${res.status}`);
     }
     return true;
+  }
+
+  async addOrgToUser(
+    username: string,
+    option: CreateOrgOption,
+  ): Promise<Organization> {
+    const res = await this.client.request(
+      "POST",
+      `/api/v1/admin/users/${username}/orgs`,
+      new Headers(),
+      JSON.stringify(option),
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 201) {
+      const errorResponse = await res.json();
+      throw new Error(
+        `Unexpected response status ${res.status}: ${errorResponse.message}`,
+      );
+    }
+
+    return await res.json() as Organization;
   }
 }

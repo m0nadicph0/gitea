@@ -246,3 +246,36 @@ it(adminSuite, "should delete a user's public key", async () => {
 
   await gitea.admin.deleteUser(user.username);
 });
+
+it(adminSuite, "should create an organization for a user", async () => {
+  const user = await gitea.admin.createUser({
+    email: "bruce@banners.eu",
+    full_name: "Bruce Banner",
+    login_name: "bruceb",
+    must_change_password: false,
+    password: "s3cr3t987659",
+    restricted: false,
+    username: "bruceb",
+    visibility: "public",
+  });
+
+  const orgInfo = {
+    description: "A community for quantum computing enthusiasts.",
+    email: "contact@quantum-yarn.org",
+    full_name: "Quantum Yarn",
+    location: "San Francisco, CA",
+    repo_admin_change_team_access: true,
+    username: "quantum-yarn",
+    visibility: "public",
+    website: "https://quantum-yarn.org",
+  };
+  const organization = await gitea.admin.addOrgToUser(user.username, orgInfo);
+
+  assertEquals(organization.username, orgInfo.username);
+  assertEquals(organization.full_name, orgInfo.full_name);
+  assertEquals(organization.description, orgInfo.description);
+  assertEquals(organization.website, orgInfo.website);
+  assertEquals(organization.location, orgInfo.location);
+
+  await gitea.admin.deleteUser(user.username);
+});
