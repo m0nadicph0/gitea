@@ -1,22 +1,8 @@
 import { Organization } from "../../lib/types/organization.ts";
+import {GiteaClient} from "../../mod.ts";
 
-async function createOrganization(
-  organization: Organization,
-): Promise<Organization> {
-  const token = Deno.env.get("TOKEN");
-  const url = `http://localhost:3000/api/v1/orgs?token=${token}`;
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `${token}`,
-    },
-    body: JSON.stringify(organization),
-  });
-
-  return await response.json() as Organization;
-}
+const gitea = new GiteaClient("http://localhost:3000", Deno.env.get("TOKEN")!);
 
 const orgs: Organization[] = [
   {
@@ -222,6 +208,6 @@ const orgs: Organization[] = [
 ];
 
 orgs.forEach(async (org) => {
-  const response = await createOrganization(org);
-  console.log(response);
+  const response = await gitea.orgs.create(org);
+  console.log(`Created organization: ${response.username}`);
 });

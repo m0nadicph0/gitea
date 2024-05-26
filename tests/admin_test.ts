@@ -277,5 +277,6 @@ it(adminSuite, "should create an organization for a user", async () => {
   assertEquals(organization.website, orgInfo.website);
   assertEquals(organization.location, orgInfo.location);
 
+  await gitea.orgs.delete(orgInfo.username);
   await gitea.admin.deleteUser(user.username);
 });

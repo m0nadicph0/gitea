@@ -207,6 +207,6 @@ const users = [
 
 users.forEach(async (user) => {
   console.log(`creating user ${user.full_name}`);
-  const data = await gitea.users.create(user);
+  const data = await gitea.admin.createUser(user);
   console.log(data);
 });

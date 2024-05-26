@@ -23,7 +23,7 @@
 - [ ] `PATCH /admin/users/{username}` Edit an existing user
 - [x] `POST /admin/users/{username}/keys` Add a public key on behalf of a user
 - [x] `DELETE /admin/users/{username}/keys/{id}` Delete a user's public key
-- [ ] `POST /admin/users/{username}/orgs` Create an organization
+- [x] `POST /admin/users/{username}/orgs` Create an organization
 - [x] `POST /admin/users/{username}/rename` Rename a user
 - [ ] `GET /admin/unadopted` List un-adopted repositories
 - [ ] `POST /admin/unadopted/{owner}/{repo}` Adopt un-adopted files as a
@@ -60,10 +60,10 @@
 
 ## organization
 
-- [ ] `GET /orgs` Get list of organizations
-- [ ] `POST /orgs` Create an organization
-- [ ] `GET /orgs/{org}` Get an organization
-- [ ] `DELETE /orgs/{org}` Delete an organization
+- [x] `GET /orgs` Get list of organizations
+- [x] `POST /orgs` Create an organization
+- [x] `GET /orgs/{org}` Get an organization
+- [x] `DELETE /orgs/{org}` Delete an organization
 - [ ] `PATCH /orgs/{org}` Edit an organization
 - [ ] `GET /orgs/{org}/actions/secrets` List an organization's actions secrets
 - [ ] `PUT /orgs/{org}/actions/secrets/{secretname}` Create or Update a secret
