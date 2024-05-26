@@ -1,5 +1,10 @@
 import { Client } from "./client.ts";
-import { CreateOrgOption, EditOrgOption, Organization } from "./types/admin.ts";
+import {
+  CreateOrgOption,
+  EditOrgOption,
+  Hook,
+  Organization,
+} from "./types/admin.ts";
 import { CreateOrUpdateSecretOption, Secret } from "./types/organization.ts";
 
 export class Org {
@@ -187,4 +192,19 @@ export class Org {
     return true;
   }
 
+  async listHooks(orgName: string): Promise<Hook[]> {
+    const res = await this.client.request(
+      "GET",
+      `/api/v1/orgs/${orgName}/hooks`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 200) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Hook[];
+  }
 }
