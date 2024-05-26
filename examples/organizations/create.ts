@@ -1,6 +1,5 @@
 import { Organization } from "../../lib/types/organization.ts";
-import {GiteaClient} from "../../mod.ts";
-
+import { GiteaClient } from "../../mod.ts";
 
 const gitea = new GiteaClient("http://localhost:3000", Deno.env.get("TOKEN")!);
 

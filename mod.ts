@@ -7,7 +7,7 @@ export class GiteaClient {
   private readonly client: Client;
   users: User;
   admin: Admin;
-  orgs: Org
+  orgs: Org;
 
   constructor(baseUrl: string, token: string) {
     this.client = new Client(baseUrl, token);

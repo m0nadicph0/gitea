@@ -8,3 +8,10 @@ export interface Organization {
   visibility: string;
   website: string;
 }
+
+export interface CreateOrUpdateSecretOption {
+  data: string;
+}
+
+export interface Secret {
+}

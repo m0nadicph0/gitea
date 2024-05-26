@@ -66,8 +66,10 @@
 - [x] `DELETE /orgs/{org}` Delete an organization
 - [x] `PATCH /orgs/{org}` Edit an organization
 - [ ] `GET /orgs/{org}/actions/secrets` List an organization's actions secrets
-- [ ] `PUT /orgs/{org}/actions/secrets/{secretname}` Create or Update a secret value in an organization
-- [ ] `DELETE /orgs/{org}/actions/secrets/{secretname}` Delete a secret in an organization
+- [ ] `PUT /orgs/{org}/actions/secrets/{secretname}` Create or Update a secret
+      value in an organization
+- [ ] `DELETE /orgs/{org}/actions/secrets/{secretname}` Delete a secret in an
+      organization
 - [ ] `GET /orgs/{org}/activities/feeds` List an organization's activity feeds
 - [ ] `POST /orgs/{org}/avatar` Update Avatar
 - [ ] `DELETE /orgs/{org}/avatar` Delete Avatar
