@@ -238,3 +238,34 @@ it(orgSuite, "should update organization avatar", async () => {
 
   await gitea.orgs.delete(organization.name);
 });
+
+
+it(orgSuite, "should delete an organization's avatar", async () => {
+    // Create a new organization
+    const organization = await gitea.orgs.create({
+        description: "A community for quantum computing enthusiasts.",
+        email: "contact@quantum-leap.org",
+        full_name: "Quantum Leap",
+        location: "San Francisco, CA",
+        repo_admin_change_team_access: true,
+        username: "quantum-leap",
+        visibility: "public",
+        website: "https://quantum-leap.org",
+    });
+
+    assertNotEquals(organization.id, null);
+
+    // Set up an avatar for the organization
+    const avatarData: string =
+        "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAM+SURBVFiFrddbiJVVFAfw38xkzWQOGllSllFG+KBUdIGosKKIbnQBQ4peood8GkoiiigIgi5gERRFEAq9dDG7kpQUQRlR4pRFYRe0sKKSJrOLznh62PvjrLPnmzPndOYPB87ea/3X+u/v23vt9fXpHEO4DOfjNJyAuejH79iBT/EOXs1zM4J5eBBjaHT4+xtrsaSXxAO4DbtrEoxhG97C6xjFLzV++7EGh3abfFh6jDHYj3gAZ0uPvQ7LcBe2F9xtOKnT5AszoSL/gbsxu4sFzMIt+CnE+RmnTkecjS2B9BVO7iJxiQXYXIhYPJVzH54Pzu9LG7BXDOKFEHdrnpuEG4LTt5g/A8krDOGjEP/e0uEQfJeN+6TNFLEQt2aR/xfH4DfNfXVkNI4EdY8XxPnYGexn9SBidYjzSDR8mSf34qiC9JTWI7WuBwGD+F6zlgzC0hB8fQ0prr6qckf0IOKhEOvyfiwPxg01hLnFeBCX9CDglfB/OTwZFB1fQ/hE6xPYUSOqGwxIG72Bjf1YlA1VuS3xXDG+UW833YRUIWFRP+bkwW78W0N4ArvC+IIekleoBAyT7u+GdEanwtWar2AfLu5RwGiOtRNeyoMJHNSG9GgQsQdn1vgMSEVrOvya44zCwyFwWQHL4G8E3724SbpDKqyTFrIep08RZxgHcowXYWUIumoa5UN4Weup2IxrcE8x38i+BxcxVgT7naTKN54n3ptGAOk1PV2TrO43gcMK/rPBfkY1+XaeOCBVxk6wUjq27QR8UHCOxV/Ztl14fVcG0msdCiA1MCNSN1wm3yp1zhHPBPtINPThs2A8rgsRFZbhZunavtTkvvFC6ZU08IOaRvWbbNyldWfPBE7U7AUauLZ0WByMa2c4+RJ8HeKvqXNaFRyuL2ztitN0uEK6N6rYG6V6MgkbNE/BAql9Xi0Vnj/xpu46oaVai1ZDuobn1DnP0vzs2q9ZJut+H+N2nIPDM38AR0ul+Q58qLnZqkXdb+qPGee2SThuckdUFprxNvbPdXB73leQvsBjuEqz8bhIeoT/tEkWRW3Cde1WXaFPuhD2ZNImrXd/iWGch1OkozVP2qRjUls/inelD9WO8B897EmFdhzbrAAAAABJRU5ErkJggg==";
+    const setAvatarResult = await gitea.orgs.updateAvatar(organization.name, avatarData);
+
+    assertEquals(setAvatarResult, true);
+
+    // Delete the avatar
+    const deleteAvatarResult = await gitea.orgs.deleteAvatar(organization.name);
+
+    assertEquals(deleteAvatarResult, true);
+
+    await gitea.orgs.delete(organization.name);
+});

@@ -70,8 +70,7 @@
       value in an organization
 - [x] `DELETE /orgs/{org}/actions/secrets/{secretname}` Delete a secret in an
       organization
-- [ ] `GET /orgs/{org}/activities/feeds` List an organization's activity feeds
-- [ ] `POST /orgs/{org}/avatar` Update Avatar
+- [x] `POST /orgs/{org}/avatar` Update Avatar
 - [ ] `DELETE /orgs/{org}/avatar` Delete Avatar
 - [ ] `GET /orgs/{org}/hooks` List an organization's webhooks
 - [ ] `POST /orgs/{org}/hooks` Create a hook
@@ -114,6 +113,8 @@
 - [ ] `GET /users/{username}/orgs` List a user's organizations
 - [ ] `GET /users/{username}/orgs/{org}/permissions` Get user permissions in
       organization
+- [ ] `GET /orgs/{org}/activities/feeds` List an organization's activity feeds
+
 
 ## package
 

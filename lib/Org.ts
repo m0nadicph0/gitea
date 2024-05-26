@@ -169,4 +169,22 @@ export class Org {
     await res.text();
     return true;
   }
+
+  async deleteAvatar(orgName: string): Promise<boolean> {
+    const res = await this.client.request(
+      "DELETE",
+      `/api/v1/orgs/${orgName}/avatar`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 204) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    await res.text();
+    return true;
+  }
+
 }
