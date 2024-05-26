@@ -5,6 +5,7 @@ import {
   EditOrgOption,
   Hook,
   Organization,
+  UpdateHookRequest,
 } from "./types/admin.ts";
 import { CreateOrUpdateSecretOption, Secret } from "./types/organization.ts";
 
@@ -258,5 +259,24 @@ export class Org {
     }
 
     return true;
+  }
+
+  async editHook(
+    name: string,
+    id: number,
+    option: UpdateHookRequest,
+  ): Promise<Hook> {
+    const res = await this.client.request(
+      "PATCH",
+      `/api/v1/orgs/${name}/hooks/${id}`,
+      new Headers(),
+      JSON.stringify(option),
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 200) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+    return await res.json() as Hook;
   }
 }

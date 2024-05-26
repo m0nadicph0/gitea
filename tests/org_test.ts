@@ -2,37 +2,20 @@ import { describe, it } from "std/testing/bdd.ts";
 import { GiteaClient } from "../mod.ts";
 import { assertNotEquals } from "std/assert/assert_not_equals.ts";
 import { assertEquals } from "std/assert/assert_equals.ts";
+import { orgObj } from "./helpers.ts";
 
 const gitea = new GiteaClient("http://localhost:3000", Deno.env.get("TOKEN")!);
 
 const orgSuite = describe("organization");
 
 it(orgSuite, "should create an organization", async () => {
-  const organization = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const organization = await gitea.orgs.create(orgObj());
   assertNotEquals(organization.id, null);
   await gitea.orgs.delete(organization.name);
 });
 
 it(orgSuite, "should get list of organizations", async () => {
-  const organization = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const organization = await gitea.orgs.create(orgObj());
   assertNotEquals(organization.id, null);
 
   const organizations = await gitea.orgs.list();
@@ -43,16 +26,7 @@ it(orgSuite, "should get list of organizations", async () => {
 });
 
 it(orgSuite, "should delete an organization", async () => {
-  const organization = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const organization = await gitea.orgs.create(orgObj());
   assertNotEquals(organization.id, null);
 
   const result = await gitea.orgs.delete(organization.name);
@@ -60,16 +34,7 @@ it(orgSuite, "should delete an organization", async () => {
 });
 
 it(orgSuite, "should get an organization", async () => {
-  const organization = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const organization = await gitea.orgs.create(orgObj());
   assertNotEquals(organization.id, null);
 
   const retrievedOrg = await gitea.orgs.get(organization.name);
@@ -82,16 +47,7 @@ it(orgSuite, "should get an organization", async () => {
 
 it(orgSuite, "should edit an organization", async () => {
   // Create a new organization
-  const organization = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const organization = await gitea.orgs.create(orgObj());
 
   assertNotEquals(organization.id, null);
 
@@ -112,16 +68,7 @@ it(orgSuite, "should edit an organization", async () => {
 
 it(orgSuite, "should list an organizations secrets", async () => {
   // Create a new organization
-  const organization = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const organization = await gitea.orgs.create(orgObj());
 
   assertNotEquals(organization.id, null);
   await gitea.orgs.createOrUpdateSecret(
@@ -273,16 +220,7 @@ it(orgSuite, "should delete an organization's avatar", async () => {
 });
 
 it(orgSuite, "should list an organization's webhooks", async () => {
-  const organization = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const organization = await gitea.orgs.create(orgObj());
 
   assertNotEquals(organization.id, null);
 
@@ -295,16 +233,7 @@ it(orgSuite, "should list an organization's webhooks", async () => {
 });
 
 it(orgSuite, "should create a hook for an organization", async () => {
-  const organization = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const organization = await gitea.orgs.create(orgObj());
 
   assertNotEquals(organization.id, null);
   const hook = await gitea.orgs.createHook(organization.name, {
@@ -326,16 +255,7 @@ it(orgSuite, "should create a hook for an organization", async () => {
 });
 
 it(orgSuite, "should get a hook of an organization", async () => {
-  const org = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const org = await gitea.orgs.create(orgObj());
 
   assertNotEquals(org.id, null);
 
@@ -361,16 +281,7 @@ it(orgSuite, "should get a hook of an organization", async () => {
 });
 
 it(orgSuite, "should delete a hook of an organization", async () => {
-  const org = await gitea.orgs.create({
-    description: "A community for quantum computing enthusiasts.",
-    email: "contact@quantum-leap.org",
-    full_name: "Quantum Leap",
-    location: "San Francisco, CA",
-    repo_admin_change_team_access: true,
-    username: "quantum-leap",
-    visibility: "public",
-    website: "https://quantum-leap.org",
-  });
+  const org = await gitea.orgs.create(orgObj());
 
   assertNotEquals(org.id, null);
 
@@ -391,6 +302,40 @@ it(orgSuite, "should delete a hook of an organization", async () => {
   const deleteHookResult = await gitea.orgs.deleteHook(org.name, hook.id);
 
   assertEquals(deleteHookResult, true);
+
+  await gitea.orgs.delete(org.name);
+});
+
+it(orgSuite, "should update a hook of an organization", async () => {
+  const org = await gitea.orgs.create(orgObj());
+
+  assertNotEquals(org.id, null);
+
+  const initialHook = await gitea.orgs.createHook(org.name, {
+    active: false,
+    authorization_header: "",
+    branch_filter: "main",
+    config: {
+      url: "http://someurl.com/hook",
+      content_type: "json",
+    },
+    events: ["push"],
+    type: "gitea",
+  });
+
+  assertNotEquals(initialHook, null);
+
+  const updatedHook = await gitea.orgs.editHook(org.name, initialHook.id, {
+    active: true,
+    branch_filter: "feature/*",
+    config: {
+      url: "http://updatedurl.com/hook",
+    },
+  });
+
+  assertEquals(updatedHook.active, true);
+  assertEquals(updatedHook.config.url, "http://updatedurl.com/hook");
+  assertEquals(updatedHook.branch_filter, "feature/*");
 
   await gitea.orgs.delete(org.name);
 });

@@ -75,7 +75,7 @@
 - [x] `GET /orgs/{org}/hooks` List an organization's webhooks
 - [x] `POST /orgs/{org}/hooks` Create a hook
 - [x] `GET /orgs/{org}/hooks/{id}` Get a hook
-- [ ] `DELETE /orgs/{org}/hooks/{id}` Delete a hook
+- [x] `DELETE /orgs/{org}/hooks/{id}` Delete a hook
 - [ ] `PATCH /orgs/{org}/hooks/{id}` Update a hook
 - [ ] `GET /orgs/{org}/labels` List an organization's labels
 - [ ] `POST /orgs/{org}/labels` Create a label for an organization
