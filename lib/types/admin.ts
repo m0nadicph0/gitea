@@ -172,6 +172,16 @@ export interface CreateOrgOption {
   website: string;
 }
 
+export interface EditOrgOption {
+  description?: string;
+  email?: string;
+  full_name?: string;
+  location?: string;
+  repo_admin_change_team_access?: boolean;
+  visibility?: string;
+  website?: string;
+}
+
 export interface Organization {
   avatar_url: string;
   description: string;

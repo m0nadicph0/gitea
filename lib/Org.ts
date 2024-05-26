@@ -1,5 +1,5 @@
 import {Client} from "./client.ts";
-import {CreateOrgOption, Organization} from "./types/admin.ts";
+import {CreateOrgOption, EditOrgOption, Organization} from "./types/admin.ts";
 
 export class Org {
     private readonly client: Client;
@@ -78,5 +78,21 @@ export class Org {
         return await res.json() as Organization;
     }
 
+    async edit(name: string, option: EditOrgOption): Promise<Organization> {
+        const res = await this.client.request(
+            "PATCH",
+            `/api/v1/orgs/${name}`,
+            new Headers(),
+            JSON.stringify(option),
+            new URLSearchParams({}),
+        );
+
+        if (res.status !== 200) {
+            console.log(await res.text());
+            throw new Error(`Unexpected response status ${res.status}`);
+        }
+
+        return await res.json() as Organization;
+    }
 
 }

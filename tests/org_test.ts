@@ -82,3 +82,31 @@ it(orgSuite, 'should get an organization', async () => {
 
     await gitea.orgs.delete(organization.name);
 });
+
+
+it(orgSuite, 'should edit an organization', async () => {
+    // Create a new organization
+    const organization = await gitea.orgs.create({
+        description: "A community for quantum computing enthusiasts.",
+        email: "contact@quantum-leap.org",
+        full_name: "Quantum Leap",
+        location: "San Francisco, CA",
+        repo_admin_change_team_access: true,
+        username: "quantum-leap",
+        visibility: "public",
+        website: "https://quantum-leap.org",
+    });
+
+    assertNotEquals(organization.id, null);
+
+    // Edit the organization
+    const updatedOrganization = await gitea.orgs.edit(organization.name, {
+        description: "A community for advanced quantum computing enthusiasts.",
+        visibility: "private",
+    });
+
+    assertEquals(updatedOrganization.description, "A community for advanced quantum computing enthusiasts.");
+    assertEquals(updatedOrganization.visibility, "private");
+
+    await gitea.orgs.delete(organization.name);
+});
