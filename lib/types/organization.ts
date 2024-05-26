@@ -14,4 +14,6 @@ export interface CreateOrUpdateSecretOption {
 }
 
 export interface Secret {
+  name: string;
+  created_at: string;
 }

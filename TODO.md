@@ -65,7 +65,7 @@
 - [x] `GET /orgs/{org}` Get an organization
 - [x] `DELETE /orgs/{org}` Delete an organization
 - [x] `PATCH /orgs/{org}` Edit an organization
-- [ ] `GET /orgs/{org}/actions/secrets` List an organization's actions secrets
+- [x] `GET /orgs/{org}/actions/secrets` List an organization's actions secrets
 - [ ] `PUT /orgs/{org}/actions/secrets/{secretname}` Create or Update a secret
       value in an organization
 - [ ] `DELETE /orgs/{org}/actions/secrets/{secretname}` Delete a secret in an

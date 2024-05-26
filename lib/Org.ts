@@ -93,7 +93,7 @@ export class Org {
     return await res.json() as Organization;
   }
 
-  async createSecret(
+  async createOrUpdateSecret(
     orgName: string,
     secretName: string,
     data: string,

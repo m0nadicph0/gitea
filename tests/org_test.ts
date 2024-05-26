@@ -124,7 +124,7 @@ it(orgSuite, "should list an organizations secrets", async () => {
   });
 
   assertNotEquals(organization.id, null);
-  await gitea.orgs.createSecret(
+  await gitea.orgs.createOrUpdateSecret(
     organization.name,
     "API_KEY",
     crypto.randomUUID().toString(),
@@ -136,4 +136,44 @@ it(orgSuite, "should list an organizations secrets", async () => {
   assertNotEquals(secrets.length, 0);
 
   await gitea.orgs.delete(organization.name);
+});
+
+
+it(orgSuite, "should create or update an organization secret", async () => {
+    const organization = await gitea.orgs.create({
+        description: "A community for quantum computing enthusiasts.",
+        email: "contact@quantum-leap.org",
+        full_name: "Quantum Leap",
+        location: "San Francisco, CA",
+        repo_admin_change_team_access: true,
+        username: "quantum-leap",
+        visibility: "public",
+        website: "https://quantum-leap.org",
+    });
+
+    assertNotEquals(organization.id, null);
+
+    const secretKey = "TEST_SECRET";
+    const secretValue = "initial_value";
+    const updatedSecretValue = "updated_value";
+
+    await gitea.orgs.createOrUpdateSecret(
+        organization.name,
+        secretKey,
+        secretValue
+    );
+
+    const secrets = await gitea.orgs.listSecrets(organization.name);
+    const secretExist = secrets.some(secret => secret.name === secretKey);
+    assertEquals(secretExist, true);
+
+    const result = await gitea.orgs.createOrUpdateSecret(
+        organization.name,
+        secretKey,
+        updatedSecretValue
+    );
+
+    assertEquals(result, true);
+
+    await gitea.orgs.delete(organization.name);
 });
