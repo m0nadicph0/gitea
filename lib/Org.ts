@@ -243,4 +243,20 @@ export class Org {
     return await res.json() as Hook;
   }
 
+  async deleteHook(name: string, id: number): Promise<boolean> {
+    const res = await this.client.request(
+      "DELETE",
+      `/api/v1/orgs/${name}/hooks/${id}`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 204) {
+      console.log(await res.text());
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return true;
+  }
 }

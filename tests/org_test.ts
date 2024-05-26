@@ -325,38 +325,72 @@ it(orgSuite, "should create a hook for an organization", async () => {
   await gitea.orgs.delete(organization.name);
 });
 
-
 it(orgSuite, "should get a hook of an organization", async () => {
-    const org = await gitea.orgs.create({
-        description: "A community for quantum computing enthusiasts.",
-        email: "contact@quantum-leap.org",
-        full_name: "Quantum Leap",
-        location: "San Francisco, CA",
-        repo_admin_change_team_access: true,
-        username: "quantum-leap",
-        visibility: "public",
-        website: "https://quantum-leap.org",
-    });
+  const org = await gitea.orgs.create({
+    description: "A community for quantum computing enthusiasts.",
+    email: "contact@quantum-leap.org",
+    full_name: "Quantum Leap",
+    location: "San Francisco, CA",
+    repo_admin_change_team_access: true,
+    username: "quantum-leap",
+    visibility: "public",
+    website: "https://quantum-leap.org",
+  });
 
-    assertNotEquals(org.id, null);
+  assertNotEquals(org.id, null);
 
-    const hook = await gitea.orgs.createHook(org.name, {
-        active: false,
-        authorization_header: "",
-        branch_filter: "main",
-        config: {
-            url: "http://someurl.com/hook",
-            content_type: "json",
-        },
-        events: ["push"],
-        type: "gitea",
-    });
+  const hook = await gitea.orgs.createHook(org.name, {
+    active: false,
+    authorization_header: "",
+    branch_filter: "main",
+    config: {
+      url: "http://someurl.com/hook",
+      content_type: "json",
+    },
+    events: ["push"],
+    type: "gitea",
+  });
 
-    assertNotEquals(hook, null);
+  assertNotEquals(hook, null);
 
-    const retrievedHook = await gitea.orgs.getHook(org.name, hook.id);
+  const retrievedHook = await gitea.orgs.getHook(org.name, hook.id);
 
-    assertEquals(retrievedHook.id, hook.id);
+  assertEquals(retrievedHook.id, hook.id);
 
-    await gitea.orgs.delete(org.name);
+  await gitea.orgs.delete(org.name);
+});
+
+it(orgSuite, "should delete a hook of an organization", async () => {
+  const org = await gitea.orgs.create({
+    description: "A community for quantum computing enthusiasts.",
+    email: "contact@quantum-leap.org",
+    full_name: "Quantum Leap",
+    location: "San Francisco, CA",
+    repo_admin_change_team_access: true,
+    username: "quantum-leap",
+    visibility: "public",
+    website: "https://quantum-leap.org",
+  });
+
+  assertNotEquals(org.id, null);
+
+  const hook = await gitea.orgs.createHook(org.name, {
+    active: false,
+    authorization_header: "",
+    branch_filter: "main",
+    config: {
+      url: "http://someurl.com/hook",
+      content_type: "json",
+    },
+    events: ["push"],
+    type: "gitea",
+  });
+
+  assertNotEquals(hook, null);
+
+  const deleteHookResult = await gitea.orgs.deleteHook(org.name, hook.id);
+
+  assertEquals(deleteHookResult, true);
+
+  await gitea.orgs.delete(org.name);
 });
