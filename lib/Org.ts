@@ -133,4 +133,21 @@ export class Org {
 
     return await res.json() as Secret[];
   }
+
+  async deleteSecret(orgName: string, secretName: string): Promise<boolean> {
+    const res = await this.client.request(
+      "DELETE",
+      `/api/v1/orgs/${orgName}/actions/secrets/${secretName}`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 204) {
+      console.log(await res.text());
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return true;
+  }
 }
