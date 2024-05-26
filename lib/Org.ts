@@ -1,5 +1,6 @@
 import { Client } from "./client.ts";
 import {
+  CreateHookRequest,
   CreateOrgOption,
   EditOrgOption,
   Hook,
@@ -206,5 +207,22 @@ export class Org {
     }
 
     return await res.json() as Hook[];
+  }
+
+  async createHook(orgName: string, arg1: CreateHookRequest): Promise<Hook> {
+    const res = await this.client.request(
+      "POST",
+      `/api/v1/orgs/${orgName}/hooks`,
+      new Headers(),
+      JSON.stringify(arg1),
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 201) {
+      console.log(await res.text());
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Hook;
   }
 }

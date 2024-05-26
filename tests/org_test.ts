@@ -293,3 +293,34 @@ it(orgSuite, "should list an organization's webhooks", async () => {
 
   await gitea.orgs.delete(organization.name);
 });
+
+it(orgSuite, "should create a hook for an organization", async () => {
+  const organization = await gitea.orgs.create({
+    description: "A community for quantum computing enthusiasts.",
+    email: "contact@quantum-leap.org",
+    full_name: "Quantum Leap",
+    location: "San Francisco, CA",
+    repo_admin_change_team_access: true,
+    username: "quantum-leap",
+    visibility: "public",
+    website: "https://quantum-leap.org",
+  });
+
+  assertNotEquals(organization.id, null);
+  const hook = await gitea.orgs.createHook(organization.name, {
+    active: false,
+    authorization_header: "",
+    branch_filter: "main",
+    config: {
+      url: "http://someurl.com/hook",
+      content_type: "json",
+    },
+    events: ["push"],
+    type: "gitea",
+  });
+
+  assertNotEquals(hook, null);
+  assertEquals(hook.type, "gitea");
+
+  await gitea.orgs.delete(organization.name);
+});
