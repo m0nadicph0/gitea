@@ -150,4 +150,23 @@ export class Org {
 
     return true;
   }
+
+  async updateAvatar(orgName: string, data: string): Promise<boolean> {
+    const res = await this.client.request(
+      "POST",
+      `/api/v1/orgs/${orgName}/avatar`,
+      new Headers(),
+      JSON.stringify({
+        image: data,
+      }),
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 204) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    await res.text();
+    return true;
+  }
 }
