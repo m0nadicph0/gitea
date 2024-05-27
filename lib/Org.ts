@@ -10,6 +10,7 @@ import {
 import {
   CreateLabelOption,
   CreateOrUpdateSecretOption,
+  EditLabelOption,
   Label,
   Secret,
 } from "./types/organization.ts";
@@ -353,5 +354,25 @@ export class Org {
     }
 
     return true;
+  }
+
+  async editLabel(
+    orgName: string,
+    id: number,
+    option: EditLabelOption,
+  ): Promise<Label> {
+    const res = await this.client.request(
+      "PATCH",
+      `/api/v1/orgs/${orgName}/labels/${id}`,
+      new Headers(),
+      JSON.stringify(option),
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 200) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Label;
   }
 }

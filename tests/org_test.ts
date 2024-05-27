@@ -425,3 +425,33 @@ it(orgSuite, "should delete a label from an organization", async () => {
   // Cleanup
   await gitea.orgs.delete(organization.name);
 });
+
+it(orgSuite, "should update a label of an organization", async () => {
+  // Create an organization
+  const organization = await gitea.orgs.create(orgObj());
+
+  assertNotEquals(organization.id, null);
+
+  // Create a label
+  const label = await gitea.orgs.createLabel(organization.name, {
+    color: "#ff0051",
+    name: "bug",
+    description: "Something isn't working",
+  });
+
+  assertNotEquals(label, null);
+
+  // Update the label
+  const updatedLabel = await gitea.orgs.editLabel(organization.name, label.id, {
+    color: "#ffff00",
+    name: "refactor",
+    description: "Code improvements",
+  });
+
+  assertEquals(updatedLabel.color, "ffff00");
+  assertEquals(updatedLabel.name, "refactor");
+  assertEquals(updatedLabel.description, "Code improvements");
+
+  // Cleanup
+  await gitea.orgs.delete(organization.name);
+});

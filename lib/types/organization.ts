@@ -35,3 +35,11 @@ export interface CreateLabelOption {
   exclusive?: boolean;
   is_archived?: boolean;
 }
+
+export interface EditLabelOption {
+  name?: string;
+  description?: string;
+  exclusive?: boolean;
+  is_archived?: boolean;
+  color?: string;
+}
