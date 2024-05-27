@@ -7,7 +7,12 @@ import {
   Organization,
   UpdateHookRequest,
 } from "./types/admin.ts";
-import {CreateOrUpdateSecretOption, Label, Secret} from "./types/organization.ts";
+import {
+  CreateLabelOption,
+  CreateOrUpdateSecretOption,
+  Label,
+  Secret,
+} from "./types/organization.ts";
 
 export class Org {
   private readonly client: Client;
@@ -296,4 +301,23 @@ export class Org {
     return await res.json() as Label[];
   }
 
+  async createLabel(
+    orgName: string,
+    option: CreateLabelOption,
+  ): Promise<Label> {
+    const res = await this.client.request(
+      "POST",
+      `/api/v1/orgs/${orgName}/labels`,
+      new Headers(),
+      JSON.stringify(option),
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 201) {
+      console.log(await res.text());
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Label;
+  }
 }

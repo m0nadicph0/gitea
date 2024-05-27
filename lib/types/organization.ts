@@ -27,3 +27,11 @@ export interface Label {
   description: string;
   url: string;
 }
+
+export interface CreateLabelOption {
+  name: string;
+  color: string;
+  description?: string;
+  exclusive?: boolean;
+  is_archived?: boolean;
+}

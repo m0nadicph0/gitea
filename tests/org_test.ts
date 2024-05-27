@@ -340,16 +340,34 @@ it(orgSuite, "should update a hook of an organization", async () => {
   await gitea.orgs.delete(org.name);
 });
 
-
 it(orgSuite, "should list an organization's labels", async () => {
-    const organization = await gitea.orgs.create(orgObj());
+  const organization = await gitea.orgs.create(orgObj());
 
-    assertNotEquals(organization.id, null);
+  assertNotEquals(organization.id, null);
 
-    const labels = await gitea.orgs.listLabels(organization.name);
+  const labels = await gitea.orgs.listLabels(organization.name);
 
-    assertNotEquals(labels, null);
-    assertEquals(Array.isArray(labels), true);
+  assertNotEquals(labels, null);
+  assertEquals(Array.isArray(labels), true);
 
-    await gitea.orgs.delete(organization.name);
+  await gitea.orgs.delete(organization.name);
+});
+
+it(orgSuite, "should create a label for an organization", async () => {
+  const organization = await gitea.orgs.create(orgObj());
+
+  assertNotEquals(organization.id, null);
+
+  const label = await gitea.orgs.createLabel(organization.name, {
+    color: "#ff0051",
+    name: "bug",
+    description: "Something isn't working",
+  });
+
+  assertNotEquals(label, null);
+  assertEquals(label.color, "ff0051");
+  assertEquals(label.name, "bug");
+  assertEquals(label.description, "Something isn't working");
+
+  await gitea.orgs.delete(organization.name);
 });

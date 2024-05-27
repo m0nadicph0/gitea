@@ -77,8 +77,8 @@
 - [x] `GET /orgs/{org}/hooks/{id}` Get a hook
 - [x] `DELETE /orgs/{org}/hooks/{id}` Delete a hook
 - [x] `PATCH /orgs/{org}/hooks/{id}` Update a hook
-- [ ] `GET /orgs/{org}/labels` List an organization's labels
-- [ ] `POST /orgs/{org}/labels` Create a label for an organization
+- [x] `GET /orgs/{org}/labels` List an organization's labels
+- [x] `POST /orgs/{org}/labels` Create a label for an organization
 - [ ] `GET /orgs/{org}/labels/{id}` Get a single label
 - [ ] `DELETE /orgs/{org}/labels/{id}` Delete a label
 - [ ] `PATCH /orgs/{org}/labels/{id}` Update a label
