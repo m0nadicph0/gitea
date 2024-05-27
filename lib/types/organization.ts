@@ -43,3 +43,25 @@ export interface EditLabelOption {
   is_archived?: boolean;
   color?: string;
 }
+
+export interface CreateTeamOption {
+  can_create_org_repo: boolean;
+  description: string;
+  includes_all_repositories: boolean;
+  name: string;
+  permission: string;
+  units: string[];
+  units_map?: Record<string, string>;
+}
+
+export interface Team {
+  id: number;
+  name: string;
+  description: string;
+  organization: Organization;
+  includes_all_repositories: boolean;
+  permission: string;
+  units: string[];
+  units_map: Record<string, string>;
+  can_create_org_repo: boolean;
+}

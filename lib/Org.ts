@@ -11,9 +11,11 @@ import {
 import {
   CreateLabelOption,
   CreateOrUpdateSecretOption,
+  CreateTeamOption,
   EditLabelOption,
   Label,
   Secret,
+  Team,
 } from "./types/organization.ts";
 
 export class Org {
@@ -410,5 +412,22 @@ export class Org {
     } else {
       throw new Error(`Unexpected response status ${res.status}`);
     }
+  }
+
+  async createTeam(orgName: string, option: CreateTeamOption): Promise<Team> {
+    const res = await this.client.request(
+      "POST",
+      `/api/v1/orgs/${orgName}/teams`,
+      new Headers(),
+      JSON.stringify(option),
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 201) {
+      console.log(await res.text());
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Team;
   }
 }
