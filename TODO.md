@@ -79,7 +79,7 @@
 - [x] `PATCH /orgs/{org}/hooks/{id}` Update a hook
 - [x] `GET /orgs/{org}/labels` List an organization's labels
 - [x] `POST /orgs/{org}/labels` Create a label for an organization
-- [ ] `GET /orgs/{org}/labels/{id}` Get a single label
+- [x] `GET /orgs/{org}/labels/{id}` Get a single label
 - [ ] `DELETE /orgs/{org}/labels/{id}` Delete a label
 - [ ] `PATCH /orgs/{org}/labels/{id}` Update a label
 - [ ] `GET /orgs/{org}/members` List an organization's members

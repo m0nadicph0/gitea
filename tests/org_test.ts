@@ -371,3 +371,30 @@ it(orgSuite, "should create a label for an organization", async () => {
 
   await gitea.orgs.delete(organization.name);
 });
+
+it(orgSuite, "should get a single label of an organization", async () => {
+  // Create an organization
+  const organization = await gitea.orgs.create(orgObj());
+
+  assertNotEquals(organization.id, null);
+
+  // Create a label
+  const label = await gitea.orgs.createLabel(organization.name, {
+    color: "#ff0051",
+    name: "bug",
+    description: "Something isn't working",
+  });
+
+  assertNotEquals(label, null);
+
+  // Get the created label
+  const retrievedLabel = await gitea.orgs.getLabel(organization.name, label.id);
+
+  assertEquals(retrievedLabel.id, label.id);
+  assertEquals(retrievedLabel.color, label.color);
+  assertEquals(retrievedLabel.name, label.name);
+  assertEquals(retrievedLabel.description, label.description);
+
+  // Cleanup
+  await gitea.orgs.delete(organization.name);
+});

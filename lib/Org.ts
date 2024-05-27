@@ -320,4 +320,21 @@ export class Org {
 
     return await res.json() as Label;
   }
+
+  async getLabel(orgName: string, id: number): Promise<Label> {
+    const res = await this.client.request(
+      "GET",
+      `/api/v1/orgs/${orgName}/labels/${id}`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 200) {
+      console.log(await res.text());
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Label;
+  }
 }
