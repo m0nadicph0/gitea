@@ -337,4 +337,21 @@ export class Org {
 
     return await res.json() as Label;
   }
+
+  async deleteLabel(orgName: string, id: number): Promise<boolean> {
+    const res = await this.client.request(
+      "DELETE",
+      `/api/v1/orgs/${orgName}/labels/${id}`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 204) {
+      console.log(await res.text());
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return true;
+  }
 }
