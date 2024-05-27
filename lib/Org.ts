@@ -392,4 +392,23 @@ export class Org {
 
     return await res.json() as User[];
   }
+
+  async checkMembership(orgName: string, userName: string): Promise<boolean> {
+    const res = await this.client.request(
+      "GET",
+      `/api/v1/orgs/${orgName}/members/${userName}`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+    await res.text();
+
+    if (res.status === 204) {
+      return true;
+    } else if (res.status === 404) {
+      return false;
+    } else {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+  }
 }
