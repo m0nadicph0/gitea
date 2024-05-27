@@ -95,8 +95,16 @@
 - [ ] `GET /orgs/{org}/repos` List an organization's repos
 - [ ] `POST /orgs/{org}/repos` Create a repository in an organization
 - [ ] `GET /orgs/{org}/teams` List an organization's teams
-- [ ] `POST /orgs/{org}/teams` Create a team
+- [x] `POST /orgs/{org}/teams` Create a team
 - [ ] `GET /orgs/{org}/teams/search` Search for teams within an organization
+- [ ] `GET /user/orgs` List the current user's organizations
+- [ ] `GET /users/{username}/orgs` List a user's organizations
+- [ ] `GET /users/{username}/orgs/{org}/permissions` Get user permissions in
+      organization
+- [ ] `GET /orgs/{org}/activities/feeds` List an organization's activity feeds
+
+# teams
+
 - [ ] `GET /teams/{id}` Get a team
 - [ ] `DELETE /teams/{id}` Delete a team
 - [ ] `PATCH /teams/{id}` Edit a team
@@ -109,11 +117,7 @@
 - [ ] `GET /teams/{id}/repos/{org}/{repo}` List a particular repo of team
 - [ ] `PUT /teams/{id}/repos/{org}/{repo}` Add a repository to a team
 - [ ] `DELETE /teams/{id}/repos/{org}/{repo}` Remove a repository from a team
-- [ ] `GET /user/orgs` List the current user's organizations
-- [ ] `GET /users/{username}/orgs` List a user's organizations
-- [ ] `GET /users/{username}/orgs/{org}/permissions` Get user permissions in
-      organization
-- [ ] `GET /orgs/{org}/activities/feeds` List an organization's activity feeds
+
 
 ## package
 

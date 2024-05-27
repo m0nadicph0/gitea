@@ -14,7 +14,7 @@ import {
   User,
 } from "./types/admin.ts";
 
-export class Admin {
+export class AdminApi {
   client: Client;
 
   constructor(client: Client) {

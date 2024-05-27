@@ -18,7 +18,7 @@ import {
   Team,
 } from "./types/organization.ts";
 
-export class Org {
+export class OrgApi {
   private readonly client: Client;
 
   constructor(client: Client) {
