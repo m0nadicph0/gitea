@@ -83,7 +83,7 @@
 - [x] `DELETE /orgs/{org}/labels/{id}` Delete a label
 - [x] `PATCH /orgs/{org}/labels/{id}` Update a label
 - [x] `GET /orgs/{org}/members` List an organization's members
-- [ ] `GET /orgs/{org}/members/{username}` Check if a user is a member of an
+- [x] `GET /orgs/{org}/members/{username}` Check if a user is a member of an
       organization
 - [ ] `DELETE /orgs/{org}/members/{username}` Remove a member from an
       organization

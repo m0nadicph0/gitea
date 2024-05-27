@@ -475,10 +475,7 @@ it(orgSuite, "should list an organization's members", async () => {
   await gitea.orgs.delete(organization.name);
 });
 
-it(
-  orgSuite,
-  "should check if a user is a member of an organization",
-  async () => {
+it(orgSuite, "should check membership", async () => {
     // Assuming that there is an organization and a user
     const organization = await gitea.orgs.create(orgObj());
     const username = "some-user";
