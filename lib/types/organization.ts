@@ -17,3 +17,13 @@ export interface Secret {
   name: string;
   created_at: string;
 }
+
+export interface Label {
+  id: number;
+  name: string;
+  exclusive: boolean;
+  is_archived: boolean;
+  color: string;
+  description: string;
+  url: string;
+}

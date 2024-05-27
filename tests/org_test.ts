@@ -339,3 +339,17 @@ it(orgSuite, "should update a hook of an organization", async () => {
 
   await gitea.orgs.delete(org.name);
 });
+
+
+it(orgSuite, "should list an organization's labels", async () => {
+    const organization = await gitea.orgs.create(orgObj());
+
+    assertNotEquals(organization.id, null);
+
+    const labels = await gitea.orgs.listLabels(organization.name);
+
+    assertNotEquals(labels, null);
+    assertEquals(Array.isArray(labels), true);
+
+    await gitea.orgs.delete(organization.name);
+});
