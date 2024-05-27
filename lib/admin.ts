@@ -4,7 +4,6 @@ import {
   CreateKeyOption,
   CreateOrgOption,
   CreateUserRequest,
-  CreateUserResponse,
   Cron,
   EmailListItem,
   Hook,
@@ -12,7 +11,7 @@ import {
   OrganizationListItem,
   PublicKey,
   UpdateHookRequest,
-  UserListItem,
+  User,
 } from "./types/admin.ts";
 
 export class Admin {
@@ -22,7 +21,7 @@ export class Admin {
     this.client = client;
   }
 
-  async createUser(opt: CreateUserRequest): Promise<CreateUserResponse> {
+  async createUser(opt: CreateUserRequest): Promise<User> {
     const res = await this.client.request(
       "POST",
       "/api/v1/admin/users",
@@ -33,7 +32,7 @@ export class Admin {
 
     switch (res.status.valueOf()) {
       case 201: {
-        return await res.json() as CreateUserResponse;
+        return await res.json() as User;
       }
       default: {
         const errorResponse = await res.json();
@@ -59,7 +58,7 @@ export class Admin {
     }
   }
 
-  async listUsers(): Promise<UserListItem[]> {
+  async listUsers(): Promise<User[]> {
     const res = await this.client.request(
       "GET",
       "/api/v1/admin/users",
@@ -75,7 +74,7 @@ export class Admin {
       );
     }
 
-    return await res.json() as UserListItem[];
+    return await res.json() as User[];
   }
 
   async renameUser(username: string, newUserName: string): Promise<boolean> {

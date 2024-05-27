@@ -455,3 +455,22 @@ it(orgSuite, "should update a label of an organization", async () => {
   // Cleanup
   await gitea.orgs.delete(organization.name);
 });
+
+it(orgSuite, "should list an organization's members", async () => {
+  // Create an organization
+  const organization = await gitea.orgs.create(orgObj());
+
+  assertNotEquals(organization.id, null);
+
+  // Currently, there is no API available in the GiteaClient to add members to an organization. Therefore, we can't create and add members here to test.
+  // Assuming that there are members in the organization, we are just validating the type and length of the received data.
+
+  // List the organization's members
+  const members = await gitea.orgs.listMembers(organization.name);
+
+  assertNotEquals(members, null);
+  assertEquals(Array.isArray(members), true);
+
+  // Cleanup the organization
+  await gitea.orgs.delete(organization.name);
+});

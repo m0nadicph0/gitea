@@ -6,6 +6,7 @@ import {
   Hook,
   Organization,
   UpdateHookRequest,
+  User,
 } from "./types/admin.ts";
 import {
   CreateLabelOption,
@@ -374,5 +375,21 @@ export class Org {
     }
 
     return await res.json() as Label;
+  }
+
+  async listMembers(orgName: string): Promise<User[]> {
+    const res = await this.client.request(
+      "GET",
+      `/api/v1/orgs/${orgName}/members`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 200) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as User[];
   }
 }
