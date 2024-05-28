@@ -10,3 +10,14 @@ export function orgObj() {
     website: "https://quantum-leap.org",
   };
 }
+
+export function teamObj() {
+  return {
+    name: "list-members-test",
+    description: "Team for listing members test",
+    permission: "read",
+    units: ["repo.code", "repo.issues"],
+    can_create_org_repo: false,
+    includes_all_repositories: false,
+  };
+}

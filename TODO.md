@@ -111,13 +111,12 @@
 - [ ] `GET /teams/{id}/activities/feeds` List a team's activity feeds
 - [ ] `GET /teams/{id}/members` List a team's members
 - [ ] `GET /teams/{id}/members/{username}` List a particular member of team
-- [ ] `PUT /teams/{id}/members/{username}` Add a team member
+- [x] `PUT /teams/{id}/members/{username}` Add a team member
 - [ ] `DELETE /teams/{id}/members/{username}` Remove a team member
 - [ ] `GET /teams/{id}/repos` List a team's repos
 - [ ] `GET /teams/{id}/repos/{org}/{repo}` List a particular repo of team
 - [ ] `PUT /teams/{id}/repos/{org}/{repo}` Add a repository to a team
 - [ ] `DELETE /teams/{id}/repos/{org}/{repo}` Remove a repository from a team
-
 
 ## package
 
