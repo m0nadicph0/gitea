@@ -80,3 +80,35 @@ it(teamSuite, "PATCH /teams/{id} Should edit a team", async () => {
 
     await gitea.orgs.delete(organization.name);
 });
+
+
+it(teamSuite, "PUT /teams/{id}/members/{username} Should add a team member", async () => {
+    const organization = await gitea.orgs.create(orgObj());
+    assertNotEquals(organization.id, null);
+
+    const team = await gitea.orgs.createTeam(organization.name, {
+        name: "team-member-addition",
+        description: "Team for adding a member",
+        permission: "read",
+        units: ["repo.code", "repo.issues"],
+        can_create_org_repo: false,
+        includes_all_repositories: false,
+    });
+    assertNotEquals(team, null);
+
+    const user = await gitea.admin.createUser({
+      email: "bruce@shield.us",
+      password: "s3cr3t052234",
+      username: "brucebanner"
+    });
+
+
+    // Assuming gitea.teams.addMember invokes the PUT /teams/{id}/members/{username} endpoint
+    const result = await gitea.teams.addMember(team.id, user.username);
+
+    // Assuming that the function returns the added member's username
+    assertEquals(result, true);
+
+    await gitea.orgs.delete(organization.name);
+    await gitea.admin.deleteUser(user.username);
+});

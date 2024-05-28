@@ -57,5 +57,21 @@ export class TeamApi {
         return await res.json() as Team;
     }
 
+    async addMember(id: number, username: string): Promise<boolean> {
+        const res = await this.client.request(
+            'PUT',
+            `/api/v1/teams/${id}/members/${username}`,
+            new Headers(),
+            null,
+            new URLSearchParams({})
+        );
+
+        if (res.status !== 204) {
+            console.log(await res.text())
+            throw new Error(`Unexpected response status ${res.status}`);
+        }
+
+        return true;
+    }
 
 }
