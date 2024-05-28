@@ -135,27 +135,58 @@ it(teamSuite, "Should list a team's members", async () => {
   await gitea.admin.deleteUser(user.username);
 });
 
-
 it(teamSuite, "Should get a specific team member", async () => {
-    const organization = await gitea.orgs.create(orgObj());
-    assertNotEquals(organization.id, null);
+  const organization = await gitea.orgs.create(orgObj());
+  assertNotEquals(organization.id, null);
 
-    const team = await gitea.orgs.createTeam(organization.name, teamObj());
-    assertNotEquals(team, null);
+  const team = await gitea.orgs.createTeam(organization.name, teamObj());
+  assertNotEquals(team, null);
 
-    const user = await gitea.admin.createUser({
-        email: "specific@shield.us",
-        password: "SpecificUserPassword",
-        username: "SpecificUserName",
-    });
+  const user = await gitea.admin.createUser({
+    email: "specific@shield.us",
+    password: "SpecificUserPassword",
+    username: "SpecificUserName",
+  });
 
-    await gitea.teams.addMember(team.id, user.username);
+  await gitea.teams.addMember(team.id, user.username);
 
-    const teamMember = await gitea.teams.getMember(team.id, user.username);
+  const teamMember = await gitea.teams.getMember(team.id, user.username);
 
-    assertNotEquals(teamMember, null);
-    assertEquals(teamMember.username, user.username);
+  assertNotEquals(teamMember, null);
+  assertEquals(teamMember.username, user.username);
 
-    await gitea.orgs.delete(organization.name);
-    await gitea.admin.deleteUser(user.username);
+  await gitea.orgs.delete(organization.name);
+  await gitea.admin.deleteUser(user.username);
+});
+
+it(teamSuite, "Should remove a team member", async () => {
+  const organization = await gitea.orgs.create(orgObj());
+  assertNotEquals(organization.id, null);
+
+  const team = await gitea.orgs.createTeam(organization.name, teamObj());
+  assertNotEquals(team, null);
+
+  const user = await gitea.admin.createUser({
+    email: "remove@shield.us",
+    password: "RemoveUserPassword",
+    username: "RemoveUserName",
+  });
+
+  await gitea.teams.addMember(team.id, user.username);
+
+  const result = await gitea.teams.removeMember(team.id, user.username); // Assuming gitea.teams.removeMember invokes the DELETE /teams/{id}/members/{username} endpoint
+
+  // Assert that the removed member's username is returned upon successful deletion
+  assertEquals(result, true);
+
+  // Now validate that the user has indeed been removed
+  const teamMembers = await gitea.teams.listMembers(team.id);
+
+  assertEquals(
+    teamMembers.some((member) => member.username === user.username),
+    false,
+  );
+
+  await gitea.orgs.delete(organization.name);
+  await gitea.admin.deleteUser(user.username);
 });

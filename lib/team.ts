@@ -105,4 +105,19 @@ export class TeamApi {
     return await res.json() as User;
   }
 
+  async removeMember(id: number, username: string): Promise<boolean> {
+    const res = await this.client.request(
+      "DELETE",
+      `/api/v1/teams/${id}/members/${username}`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 204) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return true;
+  }
 }
