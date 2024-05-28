@@ -109,8 +109,8 @@
 - [x] `DELETE /teams/{id}` Delete a team
 - [x] `PATCH /teams/{id}` Edit a team
 - [ ] `GET /teams/{id}/activities/feeds` List a team's activity feeds
-- [ ] `GET /teams/{id}/members` List a team's members
-- [ ] `GET /teams/{id}/members/{username}` List a particular member of team
+- [x] `GET /teams/{id}/members` List a team's members
+- [x] `GET /teams/{id}/members/{username}` List a particular member of team
 - [x] `PUT /teams/{id}/members/{username}` Add a team member
 - [ ] `DELETE /teams/{id}/members/{username}` Remove a team member
 - [ ] `GET /teams/{id}/repos` List a team's repos

@@ -134,3 +134,28 @@ it(teamSuite, "Should list a team's members", async () => {
   await gitea.orgs.delete(organization.name);
   await gitea.admin.deleteUser(user.username);
 });
+
+
+it(teamSuite, "Should get a specific team member", async () => {
+    const organization = await gitea.orgs.create(orgObj());
+    assertNotEquals(organization.id, null);
+
+    const team = await gitea.orgs.createTeam(organization.name, teamObj());
+    assertNotEquals(team, null);
+
+    const user = await gitea.admin.createUser({
+        email: "specific@shield.us",
+        password: "SpecificUserPassword",
+        username: "SpecificUserName",
+    });
+
+    await gitea.teams.addMember(team.id, user.username);
+
+    const teamMember = await gitea.teams.getMember(team.id, user.username);
+
+    assertNotEquals(teamMember, null);
+    assertEquals(teamMember.username, user.username);
+
+    await gitea.orgs.delete(organization.name);
+    await gitea.admin.deleteUser(user.username);
+});
