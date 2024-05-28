@@ -105,7 +105,7 @@
 
 # teams
 
-- [ ] `GET /teams/{id}` Get a team
+- [x] `GET /teams/{id}` Get a team
 - [ ] `DELETE /teams/{id}` Delete a team
 - [ ] `PATCH /teams/{id}` Edit a team
 - [ ] `GET /teams/{id}/activities/feeds` List a team's activity feeds

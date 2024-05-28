@@ -31,3 +31,26 @@ it(teamSuite, "GET /teams/{id} Should get a team", async () => {
     assertEquals(fetchedTeam.name, team.name);
     await gitea.orgs.delete(organization.name);
 });
+
+
+it(teamSuite, "DELETE /teams/{id} Should delete a team", async () => {
+    const organization = await gitea.orgs.create(orgObj());
+    assertNotEquals(organization.id, null);
+
+    const team = await gitea.orgs.createTeam(organization.name, {
+        name: "deletion-test",
+        description: "Deletion test team",
+        permission: "read",
+        units: ["repo.code", "repo.issues"],
+        can_create_org_repo: false,
+        includes_all_repositories: false,
+    });
+
+    assertNotEquals(team, null);
+
+    const result = await gitea.teams.delete(team.id);
+
+    assertEquals(result, true);
+
+    await gitea.orgs.delete(organization.name);
+});

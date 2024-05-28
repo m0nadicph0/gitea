@@ -25,4 +25,20 @@ export class TeamApi {
         return await res.json() as Team;
     }
 
+    async delete(id: number):Promise<boolean> {
+        const res = await this.client.request(
+            'DELETE',
+            `/api/v1/teams/${id}`,
+            new Headers(),
+            null,
+            new URLSearchParams({})
+        );
+
+        if (res.status !== 204) {
+            throw new Error(`Unexpected response status ${res.status}`);
+        }
+
+        return true;
+    }
+
 }
