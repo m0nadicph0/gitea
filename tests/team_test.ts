@@ -3,6 +3,7 @@ import { GiteaClient } from "../mod.ts";
 import { assertNotEquals } from "std/assert/assert_not_equals.ts";
 import { assertEquals } from "std/assert/assert_equals.ts";
 import { orgObj, teamObj } from "./helpers.ts";
+import { assert } from "std/assert/assert.ts";
 
 const gitea = new GiteaClient("http://localhost:3000", Deno.env.get("TOKEN")!);
 
@@ -189,4 +190,20 @@ it(teamSuite, "Should remove a team member", async () => {
 
   await gitea.orgs.delete(organization.name);
   await gitea.admin.deleteUser(user.username);
+});
+
+it(teamSuite, "Should list a team's repos", async () => {
+  const organization = await gitea.orgs.create(orgObj());
+  assertNotEquals(organization.id, null);
+
+  const team = await gitea.orgs.createTeam(organization.name, teamObj());
+  assertNotEquals(team, null);
+
+  const repos = await gitea.teams.listRepositories(team.id);
+
+  assertNotEquals(repos, null);
+  assert(Array.isArray(repos));
+
+  await gitea.teams.delete(team.id);
+  await gitea.orgs.delete(organization.name);
 });

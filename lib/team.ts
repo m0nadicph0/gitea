@@ -1,6 +1,6 @@
 import { Client } from "./client.ts";
 import { User } from "./types/admin.ts";
-import { EditTeamOption, Team } from "./types/organization.ts";
+import { EditTeamOption, Repository, Team } from "./types/organization.ts";
 
 export class TeamApi {
   private readonly client: Client;
@@ -119,5 +119,21 @@ export class TeamApi {
     }
 
     return true;
+  }
+
+  async listRepositories(id: number): Promise<Repository[]> {
+    const res = await this.client.request(
+      "GET",
+      `/api/v1/teams/${id}/repos`,
+      new Headers(),
+      null,
+      new URLSearchParams({}),
+    );
+
+    if (res.status !== 200) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Repository[];
   }
 }
