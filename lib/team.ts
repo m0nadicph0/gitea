@@ -1,5 +1,5 @@
 import {Client} from "./client.ts";
-import { Team } from "./types/organization.ts";
+import { EditTeamOption, Team } from "./types/organization.ts";
 
 export class TeamApi {
     private readonly client: Client;
@@ -40,5 +40,22 @@ export class TeamApi {
 
         return true;
     }
+
+    async edit(id: number, option: EditTeamOption):Promise<Team> {
+        const res = await this.client.request(
+            'PATCH',
+            `/api/v1/teams/${id}`,
+            new Headers(),
+            JSON.stringify(option),
+            new URLSearchParams({})
+        );
+
+        if (res.status !== 200) {
+            throw new Error(`Unexpected response status ${res.status}`);
+        }
+
+        return await res.json() as Team;
+    }
+
 
 }

@@ -54,6 +54,16 @@ export interface CreateTeamOption {
   units_map?: Record<string, string>;
 }
 
+export interface EditTeamOption {
+  can_create_org_repo?: boolean;
+  description?: string;
+  includes_all_repositories?: boolean;
+  name?: string;
+  permission?: string;
+  units?: string[];
+  units_map?: Record<string, string>;
+}
+
 export interface Team {
   id: number;
   name: string;

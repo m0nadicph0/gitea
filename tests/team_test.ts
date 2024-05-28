@@ -54,3 +54,29 @@ it(teamSuite, "DELETE /teams/{id} Should delete a team", async () => {
 
     await gitea.orgs.delete(organization.name);
 });
+
+
+it(teamSuite, "PATCH /teams/{id} Should edit a team", async () => {
+    const organization = await gitea.orgs.create(orgObj());
+    assertNotEquals(organization.id, null);
+
+    const team = await gitea.orgs.createTeam(organization.name, {
+        name: "edit-test",
+        description: "Team for edit test",
+        permission: "read",
+        units: ["repo.code", "repo.issues"],
+        can_create_org_repo: false,
+        includes_all_repositories: false,
+    });
+    assertNotEquals(team, null);
+
+    const updatedTeam = await gitea.teams.edit(team.id, {
+        name: "edited-team",
+        description: "Edited team description"
+    });
+
+    assertEquals(updatedTeam.name, "edited-team");
+    assertEquals(updatedTeam.description, "Edited team description");
+
+    await gitea.orgs.delete(organization.name);
+});
