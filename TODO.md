@@ -245,7 +245,7 @@
 
 - [ ] `POST /repos/migrate` Migrate a remote git repository
 - [ ] `GET /repos/search` Search for repositories
-- [ ] `GET /repos/{owner}/{repo}` Get a repository
+- [x] `GET /repos/{owner}/{repo}` Get a repository
 - [ ] `DELETE /repos/{owner}/{repo}` Delete a repository
 - [ ] `PATCH /repos/{owner}/{repo}` Edit a repository's properties. Only fields
       that are set will be changed.

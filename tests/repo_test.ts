@@ -74,3 +74,22 @@ it(teamSuite, "should get a repository by owner and repo name", async () => {
     createdResponse.name,
   );
 });
+
+it(teamSuite, "should delete a repository by owner and repo name", async () => {
+    const repository = await gitea.repos.create({
+        auto_init: false,
+        default_branch: "main",
+        description: "repo for deletion test",
+        name: "deleteRepoTest",
+        private: false,
+        template: false,
+        trust_model: "default",
+    });
+
+    const result = await gitea.repos.delete(
+        repository.owner.username,
+        repository.name,
+    );
+
+    assertEquals(result, true);
+});
