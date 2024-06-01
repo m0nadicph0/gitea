@@ -1,6 +1,10 @@
 import { Client } from "./client.ts";
 import { Repository } from "./types/organization.ts";
-import { CreateRepoOption, EditRepoOption } from "./types/repo.ts";
+import {
+  CreateOrUpdateSecretOption,
+  CreateRepoOption,
+  EditRepoOption,
+} from "./types/repo.ts";
 
 export class RepositoryApi {
   private readonly client: Client;
@@ -73,7 +77,11 @@ export class RepositoryApi {
     return await res.json() as Repository;
   }
 
-  async update(owner: string, repo: string, option: EditRepoOption) {
+  async update(
+    owner: string,
+    repo: string,
+    option: EditRepoOption,
+  ): Promise<Repository> {
     const res = await this.client.request(
       "PATCH",
       `/api/v1/repos/${owner}/${repo}`,
@@ -87,5 +95,26 @@ export class RepositoryApi {
     }
 
     return await res.json() as Repository;
+  }
+
+  async createOrUpdateSecret(
+    username: string,
+    repo: string,
+    secretName: string,
+    option: CreateOrUpdateSecretOption,
+  ): Promise<boolean> {
+    const res = await this.client.request(
+      "PUT",
+      `/api/v1/repos/${username}/${repo}/actions/secrets/${secretName}`,
+      new Headers(),
+      JSON.stringify(option),
+      new URLSearchParams(),
+    );
+
+    if (res.status !== 204 && res.status !== 201) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+    await res.text();
+    return true;
   }
 }

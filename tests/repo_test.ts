@@ -122,3 +122,35 @@ it(teamSuite, "should update a repository's properties", async () => {
 
   await gitea.repos.delete(updateResponse.owner.username, updateResponse.name);
 });
+
+it(
+  teamSuite,
+  "should create or update a secret value in a repository",
+  async () => {
+    const repo = await gitea.repos.create({
+      auto_init: false,
+      default_branch: "main",
+      description: "repo for secret update",
+      name: "secretUpdateTest",
+      private: false,
+      template: false,
+      trust_model: "default",
+    });
+
+    const secretName = "mySecret";
+    const secretValue = "superSecretValue";
+
+    const result = await gitea.repos.createOrUpdateSecret(
+      repo.owner.username,
+      repo.name,
+      secretName,
+      {
+        data: secretValue,
+      },
+    );
+
+    assertEquals(result, true);
+
+    await gitea.repos.delete(repo.owner.username, repo.name);
+  },
+);

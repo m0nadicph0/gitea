@@ -55,3 +55,7 @@ export interface EditRepoOption {
   template?: boolean;
   website?: string;
 }
+
+export interface CreateOrUpdateSecretOption {
+  data: string;
+}
