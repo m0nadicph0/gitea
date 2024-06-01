@@ -150,3 +150,37 @@ it(ts, "should create or update a repository's secret", async () => {
 
   await gitea.repos.delete(repo.owner.username, repo.name);
 });
+
+
+it(ts, "should delete a repository secret", async () => {
+    const createdResponse = await gitea.repos.create({
+        auto_init: false,
+        default_branch: "main",
+        description: "repo for secret deletion test",
+        name: "deleteSecretTest",
+        private: false,
+        template: false,
+        trust_model: "default",
+    });
+
+    const secretName = 'testSecret';
+    const secretValue = 'testSecretValue';
+    await gitea.repos.createOrUpdateSecret(
+        createdResponse.owner.username,
+        createdResponse.name,
+        secretName,
+        {
+            data: secretValue
+        },
+    );
+
+    const result = await gitea.repos.deleteSecret(
+        createdResponse.owner.username,
+        createdResponse.name,
+        secretName,
+    );
+
+    assertEquals(result, true);
+
+    await gitea.repos.delete(createdResponse.owner.username, createdResponse.name);
+});

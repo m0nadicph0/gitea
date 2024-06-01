@@ -117,4 +117,21 @@ export class RepositoryApi {
     await res.text();
     return true;
   }
+
+  async deleteSecret(owner: string, repo: string, secretName: string): Promise<boolean> {
+    const res = await this.client.request(
+      "DELETE",
+      `/api/v1/repos/${owner}/${repo}/actions/secrets/${secretName}`,
+      new Headers(),
+      null,
+      new URLSearchParams(),
+    );
+
+    if (res.status !== 204) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+    await res.text();
+    return true;
+  }
+
 }
