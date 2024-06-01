@@ -474,7 +474,7 @@
       repository using a template
 - [ ] `GET /repositories/{id}` Get a repository by id
 - [ ] `GET /topics/search search` topics via keyword
-- [ ] `POST /user/repos` Create a repository
+- [x] `POST /user/repos` Create a repository
 
 ## settings
 
