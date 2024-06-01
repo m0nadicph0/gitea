@@ -4,9 +4,9 @@ import { assertEquals } from "std/assert/assert_equals.ts";
 
 const gitea = new GiteaClient("http://localhost:3000", Deno.env.get("TOKEN")!);
 
-const teamSuite = describe("repo");
+const ts = describe("repo");
 
-it(teamSuite, "should create a repository", async () => {
+it(ts, "should create a repository", async () => {
   const response = await gitea.repos.create({
     auto_init: false,
     default_branch: "main",
@@ -23,7 +23,7 @@ it(teamSuite, "should create a repository", async () => {
   await gitea.repos.delete(response.owner.username, response.name);
 });
 
-it(teamSuite, "should get a repository by id", async () => {
+it(ts, "should get a repository by id", async () => {
   const createdResponse = await gitea.repos.create({
     auto_init: false,
     default_branch: "main",
@@ -42,7 +42,7 @@ it(teamSuite, "should get a repository by id", async () => {
   await gitea.repos.delete(response.owner.username, response.name);
 });
 
-it(teamSuite, "should get a repository by owner and repo name", async () => {
+it(ts, "should get a repository by owner and repo name", async () => {
   // First create a repository to test with
   const createdResponse = await gitea.repos.create({
     auto_init: false,
@@ -75,7 +75,7 @@ it(teamSuite, "should get a repository by owner and repo name", async () => {
   );
 });
 
-it(teamSuite, "should delete a repository by owner and repo name", async () => {
+it(ts, "should delete a repository by owner and repo name", async () => {
   const repository = await gitea.repos.create({
     auto_init: false,
     default_branch: "main",
@@ -94,7 +94,7 @@ it(teamSuite, "should delete a repository by owner and repo name", async () => {
   assertEquals(result, true);
 });
 
-it(teamSuite, "should update a repository's properties", async () => {
+it(ts, "should update a repository's properties", async () => {
   const createdResponse = await gitea.repos.create({
     auto_init: false,
     default_branch: "main",
@@ -123,34 +123,30 @@ it(teamSuite, "should update a repository's properties", async () => {
   await gitea.repos.delete(updateResponse.owner.username, updateResponse.name);
 });
 
-it(
-  teamSuite,
-  "should create or update a secret value in a repository",
-  async () => {
-    const repo = await gitea.repos.create({
-      auto_init: false,
-      default_branch: "main",
-      description: "repo for secret update",
-      name: "secretUpdateTest",
-      private: false,
-      template: false,
-      trust_model: "default",
-    });
+it(ts, "should create or update a repository's secret", async () => {
+  const repo = await gitea.repos.create({
+    auto_init: false,
+    default_branch: "main",
+    description: "repo for secret update",
+    name: "secretUpdateTest",
+    private: false,
+    template: false,
+    trust_model: "default",
+  });
 
-    const secretName = "mySecret";
-    const secretValue = "superSecretValue";
+  const secretName = "mySecret";
+  const secretValue = "superSecretValue";
 
-    const result = await gitea.repos.createOrUpdateSecret(
-      repo.owner.username,
-      repo.name,
-      secretName,
-      {
-        data: secretValue,
-      },
-    );
+  const result = await gitea.repos.createOrUpdateSecret(
+    repo.owner.username,
+    repo.name,
+    secretName,
+    {
+      data: secretValue,
+    },
+  );
 
-    assertEquals(result, true);
+  assertEquals(result, true);
 
-    await gitea.repos.delete(repo.owner.username, repo.name);
-  },
-);
+  await gitea.repos.delete(repo.owner.username, repo.name);
+});

@@ -249,7 +249,7 @@
 - [x] `DELETE /repos/{owner}/{repo}` Delete a repository
 - [x] `PATCH /repos/{owner}/{repo}` Edit a repository's properties. Only fields
       that are set will be changed.
-- [ ] `PUT /repos/{owner}/{repo}/actions/secrets/{secretname}` Create or Update
+- [x] `PUT /repos/{owner}/{repo}/actions/secrets/{secretname}` Create or Update
       a secret value in a repository
 - [ ] `DELETE /repos/{owner}/{repo}/actions/secrets/{secretname}` Delete a
       secret in a repository
