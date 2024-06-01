@@ -472,7 +472,7 @@
       wiki page
 - [ ] `POST /repos/{template_owner}/{template_repo}/generate` Create a
       repository using a template
-- [ ] `GET /repositories/{id}` Get a repository by id
+- [x] `GET /repositories/{id}` Get a repository by id
 - [ ] `GET /topics/search search` topics via keyword
 - [x] `POST /user/repos` Create a repository
 

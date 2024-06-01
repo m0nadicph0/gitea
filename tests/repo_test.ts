@@ -41,3 +41,36 @@ it(teamSuite, "should get a repository by id", async () => {
 
   await gitea.repos.delete(response.owner.username, response.name);
 });
+
+it(teamSuite, "should get a repository by owner and repo name", async () => {
+  // First create a repository to test with
+  const createdResponse = await gitea.repos.create({
+    auto_init: false,
+    default_branch: "main",
+    description: "repo for retrieval by owner and repo name",
+    name: "ownerRepoTest",
+    private: false,
+    template: false,
+    trust_model: "default",
+  });
+
+  // Get the repository by owner username and repo name
+  const response = await gitea.repos.getByOwner(
+    createdResponse.owner.username,
+    createdResponse.name,
+  );
+
+  // Assert that the retrieved repo name matches the one created
+  assertEquals(response.name, "ownerRepoTest");
+  // Assert that the retrieved repo description matches the one created
+  assertEquals(
+    response.description,
+    "repo for retrieval by owner and repo name",
+  );
+
+  // Cleanup: delete the repository created for this test
+  await gitea.repos.delete(
+    createdResponse.owner.username,
+    createdResponse.name,
+  );
+});
