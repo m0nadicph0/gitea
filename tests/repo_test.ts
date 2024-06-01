@@ -76,20 +76,49 @@ it(teamSuite, "should get a repository by owner and repo name", async () => {
 });
 
 it(teamSuite, "should delete a repository by owner and repo name", async () => {
-    const repository = await gitea.repos.create({
-        auto_init: false,
-        default_branch: "main",
-        description: "repo for deletion test",
-        name: "deleteRepoTest",
-        private: false,
-        template: false,
-        trust_model: "default",
-    });
+  const repository = await gitea.repos.create({
+    auto_init: false,
+    default_branch: "main",
+    description: "repo for deletion test",
+    name: "deleteRepoTest",
+    private: false,
+    template: false,
+    trust_model: "default",
+  });
 
-    const result = await gitea.repos.delete(
-        repository.owner.username,
-        repository.name,
-    );
+  const result = await gitea.repos.delete(
+    repository.owner.username,
+    repository.name,
+  );
 
-    assertEquals(result, true);
+  assertEquals(result, true);
+});
+
+it(teamSuite, "should update a repository's properties", async () => {
+  const createdResponse = await gitea.repos.create({
+    auto_init: false,
+    default_branch: "main",
+    description: "repo for updating properties",
+    name: "updateRepoTest",
+    private: false,
+    template: false,
+    trust_model: "default",
+  });
+
+  const newDescription = "updated repo description";
+  const newName = "updatedRepoTest";
+
+  const updateResponse = await gitea.repos.update(
+    createdResponse.owner.username,
+    createdResponse.name,
+    {
+      description: newDescription,
+      name: newName,
+    },
+  );
+
+  assertEquals(updateResponse.description, newDescription);
+  assertEquals(updateResponse.name, newName);
+
+  await gitea.repos.delete(updateResponse.owner.username, updateResponse.name);
 });

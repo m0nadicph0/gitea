@@ -1,6 +1,6 @@
 import { Client } from "./client.ts";
 import { Repository } from "./types/organization.ts";
-import { CreateRepoOption } from "./types/repo.ts";
+import { CreateRepoOption, EditRepoOption } from "./types/repo.ts";
 
 export class RepositoryApi {
   private readonly client: Client;
@@ -70,6 +70,22 @@ export class RepositoryApi {
     if (res.status !== 200) {
       throw new Error(`Unexpected response status ${res.status}`);
     }
+    return await res.json() as Repository;
+  }
+
+  async update(owner: string, repo: string, option: EditRepoOption) {
+    const res = await this.client.request(
+      "PATCH",
+      `/api/v1/repos/${owner}/${repo}`,
+      new Headers(),
+      JSON.stringify(option),
+      new URLSearchParams(),
+    );
+
+    if (res.status !== 200) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
     return await res.json() as Repository;
   }
 }

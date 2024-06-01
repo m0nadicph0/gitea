@@ -246,8 +246,8 @@
 - [ ] `POST /repos/migrate` Migrate a remote git repository
 - [ ] `GET /repos/search` Search for repositories
 - [x] `GET /repos/{owner}/{repo}` Get a repository
-- [ ] `DELETE /repos/{owner}/{repo}` Delete a repository
-- [ ] `PATCH /repos/{owner}/{repo}` Edit a repository's properties. Only fields
+- [x] `DELETE /repos/{owner}/{repo}` Delete a repository
+- [x] `PATCH /repos/{owner}/{repo}` Edit a repository's properties. Only fields
       that are set will be changed.
 - [ ] `PUT /repos/{owner}/{repo}/actions/secrets/{secretname}` Create or Update
       a secret value in a repository
