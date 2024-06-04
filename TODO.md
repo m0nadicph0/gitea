@@ -251,7 +251,7 @@
       that are set will be changed.
 - [x] `PUT /repos/{owner}/{repo}/actions/secrets/{secretname}` Create or Update
       a secret value in a repository
-- [ ] `DELETE /repos/{owner}/{repo}/actions/secrets/{secretname}` Delete a
+- [x] `DELETE /repos/{owner}/{repo}/actions/secrets/{secretname}` Delete a
       secret in a repository
 - [ ] `GET /repos/{owner}/{repo}/activities/feeds` List a repository's activity
       feeds

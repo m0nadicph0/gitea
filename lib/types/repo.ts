@@ -59,3 +59,48 @@ export interface EditRepoOption {
 export interface CreateOrUpdateSecretOption {
   data: string;
 }
+
+export interface CreateBranchRepoOption {
+  new_branch_name: string;
+  old_branch_name?: string;
+  old_ref_name?: string;
+}
+
+export interface Author {
+  email: string;
+  name: string;
+  username: string;
+}
+
+export interface Verification {
+  payload: string;
+  reason: string;
+  signature: string;
+  signer: Author;
+  verified: boolean;
+}
+
+export interface Commit {
+  added: string[];
+  author: Author;
+  committer: Author;
+  id: string;
+  message: string;
+  modified: string[];
+  removed: string[];
+  timestamp: string;
+  url: string;
+  verification: Verification;
+}
+
+export interface Branch {
+  commit: Commit;
+  effective_branch_protection_name: string;
+  enable_status_check: boolean;
+  name: string;
+  protected: boolean;
+  required_approvals: number;
+  status_check_contexts: string[];
+  user_can_merge: boolean;
+  user_can_push: boolean;
+}

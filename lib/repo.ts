@@ -1,6 +1,8 @@
 import { Client } from "./client.ts";
 import { Repository } from "./types/organization.ts";
 import {
+  Branch,
+  CreateBranchRepoOption,
   CreateOrUpdateSecretOption,
   CreateRepoOption,
   EditRepoOption,
@@ -118,7 +120,11 @@ export class RepositoryApi {
     return true;
   }
 
-  async deleteSecret(owner: string, repo: string, secretName: string): Promise<boolean> {
+  async deleteSecret(
+    owner: string,
+    repo: string,
+    secretName: string,
+  ): Promise<boolean> {
     const res = await this.client.request(
       "DELETE",
       `/api/v1/repos/${owner}/${repo}/actions/secrets/${secretName}`,
@@ -134,4 +140,24 @@ export class RepositoryApi {
     return true;
   }
 
+  async createBranch(
+    owner: string,
+    repo: string,
+    option: CreateBranchRepoOption,
+  ): Promise<Branch> {
+    const res = await this.client.request(
+      "POST",
+      `/api/v1/repos/${owner}/${repo}/branches`,
+      new Headers(),
+      JSON.stringify(option),
+      new URLSearchParams(),
+    );
+
+    if (res.status !== 201) {
+      console.log(await res.text());
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Branch;
+  }
 }
