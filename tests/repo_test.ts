@@ -217,3 +217,41 @@ it(ts, "should create a branch", async () => {
     createdResponse.name,
   );
 });
+
+it(ts, "should get branch with protection", async () => {
+  const createdResponse = await gitea.repos.create({
+    auto_init: true,
+    default_branch: "main",
+    description: "repo for getting branch test",
+    name: "getBranchTestRepo",
+    private: false,
+    template: false,
+    trust_model: "default",
+    gitignores: "Rust",
+    license: "MIT",
+    readme: "Default",
+    issue_labels: "Default",
+  });
+
+  const newBranchName = "development";
+  await gitea.repos.createBranch(
+    createdResponse.owner.username,
+    createdResponse.name,
+    {
+      new_branch_name: newBranchName,
+    },
+  );
+
+  const branchResponse = await gitea.repos.getBranch(
+    createdResponse.owner.username,
+    createdResponse.name,
+    newBranchName,
+  );
+
+  assertEquals(branchResponse.name, newBranchName);
+
+  await gitea.repos.delete(
+    createdResponse.owner.username,
+    createdResponse.name,
+  );
+});

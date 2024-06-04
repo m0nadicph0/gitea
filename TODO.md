@@ -272,8 +272,8 @@
 - [ ] `PATCH /repos/{owner}/{repo}/branch_protections/{name}` Edit a branch
       protections for a repository. Only fields that are set will be changed
 - [ ] `GET /repos/{owner}/{repo}/branches` List a repository's branches
-- [ ] `POST /repos/{owner}/{repo}/branches` Create a branch
-- [ ] `GET /repos/{owner}/{repo}/branches/{branch}` Retrieve a specific branch
+- [x] `POST /repos/{owner}/{repo}/branches` Create a branch
+- [x] `GET /repos/{owner}/{repo}/branches/{branch}` Retrieve a specific branch
       from a repository, including its effective branch protection
 - [ ] `DELETE /repos/{owner}/{repo}/branches/{branch}` Delete a specific branch
       from a repository

@@ -154,7 +154,26 @@ export class RepositoryApi {
     );
 
     if (res.status !== 201) {
-      console.log(await res.text());
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Branch;
+  }
+
+  async getBranch(
+    username: string,
+    name: string,
+    branch: string,
+  ): Promise<Branch> {
+    const res = await this.client.request(
+      "GET",
+      `/api/v1/repos/${username}/${name}/branches/${branch}`,
+      new Headers(),
+      null,
+      new URLSearchParams(),
+    );
+
+    if (res.status !== 200) {
       throw new Error(`Unexpected response status ${res.status}`);
     }
 
