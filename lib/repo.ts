@@ -179,4 +179,20 @@ export class RepositoryApi {
 
     return await res.json() as Branch;
   }
+
+  async listBranches(owner: string, repo: string): Promise<Branch[]> {
+    const res = await this.client.request(
+      "GET",
+      `/api/v1/repos/${owner}/${repo}/branches`,
+      new Headers(),
+      null,
+      new URLSearchParams(),
+    );
+
+    if (res.status !== 200) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return await res.json() as Branch[];
+  }
 }

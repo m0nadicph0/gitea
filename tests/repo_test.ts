@@ -1,6 +1,7 @@
 import { describe, it } from "std/testing/bdd.ts";
 import { GiteaClient } from "../mod.ts";
 import { assertEquals } from "std/assert/assert_equals.ts";
+import { delay } from "https://deno.land/std@0.224.0/async/delay.ts";
 
 const gitea = new GiteaClient("http://localhost:3000", Deno.env.get("TOKEN")!);
 
@@ -249,6 +250,52 @@ it(ts, "should get branch with protection", async () => {
   );
 
   assertEquals(branchResponse.name, newBranchName);
+
+  await gitea.repos.delete(
+    createdResponse.owner.username,
+    createdResponse.name,
+  );
+});
+
+it(ts, "should list all repositories' branches", async () => {
+  const createdResponse = await gitea.repos.create({
+    auto_init: true,
+    default_branch: "main",
+    description: "repo for listing branches test",
+    name: "listBranchesTestRepo",
+    private: false,
+    template: false,
+    trust_model: "default",
+    gitignores: "Rust",
+    license: "MIT",
+    readme: "Default",
+    issue_labels: "Default",
+  });
+
+  const branches = ["feature-001", "feature-002", "feature-003"];
+
+  for (const branch of branches) {
+    await gitea.repos.createBranch(
+      createdResponse.owner.username,
+      createdResponse.name,
+      {
+        new_branch_name: branch,
+      },
+    );
+  }
+
+  await delay(2000);
+
+  const repoBranches = await gitea.repos.listBranches(
+    createdResponse.owner.username,
+    createdResponse.name,
+  );
+
+  const branchNames = repoBranches.map((br) => br.name);
+
+  // Check if created branch names are in retrieved list
+  assertEquals(branchNames.includes(branches[0]), true);
+  assertEquals(branchNames.includes(branches[1]), true);
 
   await gitea.repos.delete(
     createdResponse.owner.username,
