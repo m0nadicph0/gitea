@@ -257,6 +257,7 @@ it(ts, "should get branch with protection", async () => {
   );
 });
 
+// TODO: fix flaky test
 it(ts, "should list all repositories' branches", async () => {
   const createdResponse = await gitea.repos.create({
     auto_init: true,
@@ -296,6 +297,48 @@ it(ts, "should list all repositories' branches", async () => {
   // Check if created branch names are in retrieved list
   assertEquals(branchNames.includes(branches[0]), true);
   assertEquals(branchNames.includes(branches[1]), true);
+
+  await gitea.repos.delete(
+    createdResponse.owner.username,
+    createdResponse.name,
+  );
+});
+
+// TODO: fix flaky test
+it(ts, "should delete a specific branch from a repository", async () => {
+  const createdResponse = await gitea.repos.create({
+    auto_init: true,
+    default_branch: "main",
+    description: "repo for deleting branch test",
+    name: "deleteBranchTestRepo",
+    private: false,
+    template: false,
+    trust_model: "default",
+    gitignores: "Rust",
+    license: "MIT",
+    readme: "Default",
+    issue_labels: "Default",
+  });
+
+  const branchName = "feature-001";
+
+  await gitea.repos.createBranch(
+    createdResponse.owner.username,
+    createdResponse.name,
+    {
+      new_branch_name: branchName,
+    },
+  );
+
+  await delay(2000);
+
+  const result = await gitea.repos.deleteBranch(
+    createdResponse.owner.username,
+    createdResponse.name,
+    branchName,
+  );
+
+  assertEquals(result, true);
 
   await gitea.repos.delete(
     createdResponse.owner.username,

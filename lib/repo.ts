@@ -195,4 +195,24 @@ export class RepositoryApi {
 
     return await res.json() as Branch[];
   }
+
+  async deleteBranch(
+    owner: string,
+    repo: string,
+    branch: string,
+  ): Promise<boolean> {
+    const res = await this.client.request(
+      "DELETE",
+      `/api/v1/repos/${owner}/${repo}/branches/${branch}`,
+      new Headers(),
+      null,
+      new URLSearchParams(),
+    );
+
+    if (res.status !== 204) {
+      throw new Error(`Unexpected response status ${res.status}`);
+    }
+
+    return true;
+  }
 }
